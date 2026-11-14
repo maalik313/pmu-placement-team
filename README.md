@@ -1,6 +1,7 @@
 # PMU sensor placement: Tennessee Quantum Hackathon 2026 (TVA track)
 
 Team repo. Start with [`docs/PLAN.md`](docs/PLAN.md). Open [`docs/placement_explorer.html`](docs/placement_explorer.html) for the interactive grid.
+Plain-language explainer (PMUs, quantum, QAOA, with a live simulation of our 6-substation circuit): https://claude.ai/artifact/3Uba2JuS4UzxmKwUaebFGj (private until shared). Pitch deck source: [`docs/deck/`](docs/deck/).
 
 ```
 data/       IEEE 14 / 6-bus piece / 30 / 57 / 118 / 300 grids (from the track repo)
