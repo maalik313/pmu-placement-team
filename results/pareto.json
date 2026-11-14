@@ -1,0 +1,1045 @@
+{
+ "ieee14": {
+  "buses": 14,
+  "priority": {
+   "1": 23,
+   "2": 41,
+   "3": 33,
+   "4": 26,
+   "5": 16,
+   "6": 31,
+   "7": 8,
+   "8": 23,
+   "9": 26,
+   "10": 8,
+   "11": 8,
+   "12": 8,
+   "13": 8,
+   "14": 8
+  },
+  "budget_rows": [
+   {
+    "k": 1,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     4
+    ],
+    "buses_seen": 6,
+    "weighted_seen_pct": 56.2,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     4
+    ],
+    "buses_seen": 6,
+    "weighted_seen_pct": 56.2,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     4
+    ],
+    "buses_seen": 7,
+    "weighted_seen_pct": 64.8,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     4
+    ],
+    "buses_seen": 7,
+    "weighted_seen_pct": 64.8,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 2,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     4,
+     13
+    ],
+    "buses_seen": 10,
+    "weighted_seen_pct": 76.8,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     4,
+     13
+    ],
+    "buses_seen": 10,
+    "weighted_seen_pct": 76.8,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     6,
+     9
+    ],
+    "buses_seen": 11,
+    "weighted_seen_pct": 63.7,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     4,
+     6
+    ],
+    "buses_seen": 11,
+    "weighted_seen_pct": 85.4,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 3,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     2,
+     6,
+     9
+    ],
+    "buses_seen": 13,
+    "weighted_seen_pct": 91.4,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     7,
+     13
+    ],
+    "buses_seen": 12,
+    "weighted_seen_pct": 94.0,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     2,
+     6,
+     9
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     9
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 4,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     2,
+     7,
+     10,
+     13
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     7,
+     10,
+     13
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     2,
+     6,
+     7,
+     9
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     7,
+     9
+    ],
+    "buses_seen": 14,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 440000
+   }
+  ],
+  "full": {
+   "plain": [
+    2,
+    7,
+    11,
+    13
+   ],
+   "zib": [
+    2,
+    6,
+    9
+   ],
+   "n1": [
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    13
+   ],
+   "critical": [
+    2,
+    4,
+    7,
+    11,
+    13
+   ],
+   "critical_top": [
+    2,
+    3,
+    4,
+    6
+   ]
+  },
+  "worst_single_failure_unseen": {
+   "plain": 4,
+   "zib": 5,
+   "n1": 0,
+   "critical": 3
+  },
+  "cost_usd": {
+   "plain": [
+    160000,
+    440000,
+    720000
+   ],
+   "zib": [
+    120000,
+    330000,
+    540000
+   ],
+   "n1": [
+    360000,
+    990000,
+    1620000
+   ],
+   "critical": [
+    200000,
+    550000,
+    900000
+   ]
+  }
+ },
+ "ieee30": {
+  "buses": 30,
+  "priority": {
+   "1": 23,
+   "2": 41,
+   "3": 8,
+   "4": 16,
+   "5": 33,
+   "6": 16,
+   "7": 18,
+   "8": 33,
+   "9": 8,
+   "10": 16,
+   "11": 23,
+   "12": 26,
+   "13": 23,
+   "14": 8,
+   "15": 16,
+   "16": 8,
+   "17": 8,
+   "18": 8,
+   "19": 18,
+   "20": 8,
+   "21": 18,
+   "22": 8,
+   "23": 8,
+   "24": 8,
+   "25": 8,
+   "26": 8,
+   "27": 16,
+   "28": 8,
+   "29": 8,
+   "30": 18
+  },
+  "budget_rows": [
+   {
+    "k": 1,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     6
+    ],
+    "buses_seen": 8,
+    "weighted_seen_pct": 33.5,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     6
+    ],
+    "buses_seen": 8,
+    "weighted_seen_pct": 33.5,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     6
+    ],
+    "buses_seen": 10,
+    "weighted_seen_pct": 41.8,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 1,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     6
+    ],
+    "buses_seen": 10,
+    "weighted_seen_pct": 41.8,
+    "cost_usd_mid": 110000
+   },
+   {
+    "k": 2,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     10,
+     12
+    ],
+    "buses_seen": 13,
+    "weighted_seen_pct": 38.4,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     6,
+     12
+    ],
+    "buses_seen": 13,
+    "weighted_seen_pct": 50.9,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     10,
+     27
+    ],
+    "buses_seen": 16,
+    "weighted_seen_pct": 45.5,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 2,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     6,
+     12
+    ],
+    "buses_seen": 15,
+    "weighted_seen_pct": 59.2,
+    "cost_usd_mid": 220000
+   },
+   {
+    "k": 3,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 18,
+    "weighted_seen_pct": 50.9,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     12
+    ],
+    "buses_seen": 15,
+    "weighted_seen_pct": 62.9,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 22,
+    "weighted_seen_pct": 66.3,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 3,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     2,
+     10,
+     27
+    ],
+    "buses_seen": 21,
+    "weighted_seen_pct": 73.6,
+    "cost_usd_mid": 330000
+   },
+   {
+    "k": 4,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     5,
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 21,
+    "weighted_seen_pct": 70.6,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     12,
+     27
+    ],
+    "buses_seen": 19,
+    "weighted_seen_pct": 73.6,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     2,
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 26,
+    "weighted_seen_pct": 91.0,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 4,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     2,
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 26,
+    "weighted_seen_pct": 91.0,
+    "cost_usd_mid": 440000
+   },
+   {
+    "k": 5,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     10,
+     12,
+     25,
+     27
+    ],
+    "buses_seen": 23,
+    "weighted_seen_pct": 69.7,
+    "cost_usd_mid": 550000
+   },
+   {
+    "k": 5,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     10,
+     12,
+     27
+    ],
+    "buses_seen": 23,
+    "weighted_seen_pct": 82.6,
+    "cost_usd_mid": 550000
+   },
+   {
+    "k": 5,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     2,
+     10,
+     12,
+     18,
+     27
+    ],
+    "buses_seen": 28,
+    "weighted_seen_pct": 96.6,
+    "cost_usd_mid": 550000
+   },
+   {
+    "k": 5,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     2,
+     10,
+     12,
+     19,
+     27
+    ],
+    "buses_seen": 28,
+    "weighted_seen_pct": 96.6,
+    "cost_usd_mid": 550000
+   },
+   {
+    "k": 6,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     10,
+     12,
+     15,
+     25,
+     27
+    ],
+    "buses_seen": 25,
+    "weighted_seen_pct": 73.2,
+    "cost_usd_mid": 660000
+   },
+   {
+    "k": 6,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     10,
+     12,
+     19,
+     27
+    ],
+    "buses_seen": 25,
+    "weighted_seen_pct": 88.2,
+    "cost_usd_mid": 660000
+   },
+   {
+    "k": 6,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     1,
+     7,
+     10,
+     12,
+     15,
+     27
+    ],
+    "buses_seen": 29,
+    "weighted_seen_pct": 96.1,
+    "cost_usd_mid": 660000
+   },
+   {
+    "k": 6,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     1,
+     5,
+     10,
+     12,
+     19,
+     27
+    ],
+    "buses_seen": 29,
+    "weighted_seen_pct": 98.3,
+    "cost_usd_mid": 660000
+   },
+   {
+    "k": 7,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     5,
+     10,
+     12,
+     15,
+     25,
+     27
+    ],
+    "buses_seen": 27,
+    "weighted_seen_pct": 84.1,
+    "cost_usd_mid": 770000
+   },
+   {
+    "k": 7,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     9,
+     10,
+     12,
+     19,
+     27
+    ],
+    "buses_seen": 26,
+    "weighted_seen_pct": 93.1,
+    "cost_usd_mid": 770000
+   },
+   {
+    "k": 7,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     3,
+     5,
+     10,
+     12,
+     18,
+     23,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 770000
+   },
+   {
+    "k": 7,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     1,
+     5,
+     10,
+     12,
+     18,
+     23,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 770000
+   },
+   {
+    "k": 8,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     5,
+     9,
+     10,
+     12,
+     15,
+     25,
+     27
+    ],
+    "buses_seen": 28,
+    "weighted_seen_pct": 89.1,
+    "cost_usd_mid": 880000
+   },
+   {
+    "k": 8,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     9,
+     10,
+     12,
+     19,
+     25,
+     27
+    ],
+    "buses_seen": 28,
+    "weighted_seen_pct": 96.6,
+    "cost_usd_mid": 880000
+   },
+   {
+    "k": 8,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     1,
+     5,
+     10,
+     12,
+     15,
+     19,
+     25,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 880000
+   },
+   {
+    "k": 8,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     1,
+     5,
+     10,
+     12,
+     15,
+     18,
+     25,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 880000
+   },
+   {
+    "k": 9,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     5,
+     9,
+     10,
+     12,
+     15,
+     25,
+     27,
+     28
+    ],
+    "buses_seen": 29,
+    "weighted_seen_pct": 96.1,
+    "cost_usd_mid": 990000
+   },
+   {
+    "k": 9,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     2,
+     6,
+     9,
+     10,
+     12,
+     15,
+     20,
+     25,
+     27
+    ],
+    "buses_seen": 29,
+    "weighted_seen_pct": 98.3,
+    "cost_usd_mid": 990000
+   },
+   {
+    "k": 9,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     2,
+     4,
+     6,
+     10,
+     12,
+     15,
+     20,
+     25,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 990000
+   },
+   {
+    "k": 9,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     1,
+     5,
+     6,
+     10,
+     12,
+     15,
+     18,
+     25,
+     27
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 990000
+   },
+   {
+    "k": 10,
+    "zib": false,
+    "objective": "count",
+    "chosen": [
+     1,
+     5,
+     9,
+     10,
+     12,
+     15,
+     20,
+     25,
+     27,
+     28
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 1100000
+   },
+   {
+    "k": 10,
+    "zib": false,
+    "objective": "priority",
+    "chosen": [
+     1,
+     7,
+     9,
+     10,
+     12,
+     15,
+     20,
+     25,
+     27,
+     28
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 1100000
+   },
+   {
+    "k": 10,
+    "zib": true,
+    "objective": "count",
+    "chosen": [
+     3,
+     5,
+     9,
+     10,
+     12,
+     15,
+     18,
+     25,
+     27,
+     28
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 1100000
+   },
+   {
+    "k": 10,
+    "zib": true,
+    "objective": "priority",
+    "chosen": [
+     1,
+     5,
+     9,
+     10,
+     12,
+     15,
+     18,
+     25,
+     27,
+     28
+    ],
+    "buses_seen": 30,
+    "weighted_seen_pct": 100.0,
+    "cost_usd_mid": 1100000
+   }
+  ],
+  "full": {
+   "plain": [
+    1,
+    5,
+    6,
+    9,
+    10,
+    12,
+    19,
+    24,
+    25,
+    27
+   ],
+   "zib": [
+    1,
+    7,
+    10,
+    12,
+    19,
+    24,
+    27
+   ],
+   "n1": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    17,
+    19,
+    20,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    30
+   ],
+   "critical": [
+    1,
+    2,
+    5,
+    6,
+    9,
+    10,
+    11,
+    12,
+    13,
+    19,
+    24,
+    25,
+    27,
+    28
+   ],
+   "critical_top": [
+    1,
+    2,
+    5,
+    7,
+    8,
+    11,
+    12,
+    13
+   ]
+  },
+  "worst_single_failure_unseen": {
+   "plain": 5,
+   "zib": 6,
+   "n1": 0,
+   "critical": 3
+  },
+  "cost_usd": {
+   "plain": [
+    400000,
+    1100000,
+    1800000
+   ],
+   "zib": [
+    280000,
+    770000,
+    1260000
+   ],
+   "n1": [
+    840000,
+    2310000,
+    3780000
+   ],
+   "critical": [
+    560000,
+    1540000,
+    2520000
+   ]
+  }
+ }
+}

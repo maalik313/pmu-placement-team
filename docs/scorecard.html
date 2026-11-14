@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PMU Scorecard</title><style>
+:root{--bg:#fff;--fg:#1c1c1a;--mut:#6b6a65;--card:#f5f4f0;--s:#2a78d6}@media(prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#ecebe6;--mut:#9b9a94;--card:#222226}}
+body{background:var(--bg);color:var(--fg);font:15px system-ui,sans-serif;max-width:900px;margin:auto;padding:16px}h2{font-size:17px;margin:22px 0 4px}p{color:var(--mut);margin:2px 0 8px}
+.r{display:grid;grid-template-columns:190px 1fr;gap:4px 10px;align-items:center;margin:5px 0}.r span{font-size:14px}.b{background:var(--s);color:#fff;padding:5px 8px;border-radius:5px;white-space:nowrap;font-size:13px;min-width:max-content}.r em{grid-column:2;color:var(--mut);font-size:12px}
+table{border-collapse:collapse;width:100%}td,th{padding:5px 8px;border-bottom:1px solid var(--card);text-align:right}th:first-child,td:first-child{text-align:left}</style></head><body>
+<h1 style="font-size:21px">PMU placement: cost, robustness, and the quantum question (IEEE 14)</h1>
+<h2>1 · Cheaper means less robust</h2><p>Priced at $110k per PMU (DOE range $40k–$180k). Exact MILP solutions, checked by the validity checker.</p><div class=r><span>Full observability</span><div class=b style="width:36%">4 PMUs · $0.44M</div><em>one PMU fails → 4 buses unseen</em></div><div class=r><span>+ zero-injection rule</span><div class=b style="width:27%">3 PMUs · $0.33M</div><em>one PMU fails → 5 buses unseen</em></div><div class=r><span>Critical buses ×2</span><div class=b style="width:45%">5 PMUs · $0.55M</div><em>one PMU fails → 3 buses unseen</em></div><div class=r><span>N-1: every bus ×2</span><div class=b style="width:81%">9 PMUs · $0.99M</div><em>one PMU fails → 0 buses unseen</em></div>
+<h2>2 · Samples needed to see an optimal placement (99% confidence)</h2><p>Final sampling is far better than random, but tuning is what costs. Bars share one scale.</p><div class=r><span>Random sampling</span><div class=b style="width:100%;background:#999">15,088 shots</div></div>
+<div class=r><span>QAOA p=2 (noise-free sim)</span><div class=b style="width:2.0%">63 shots</div></div>
+<div class=r><span>Stock heuristic (SciPy DE)</span><div class=b style="width:4.2%;background:#6a8">630 evaluations</div></div>
+<div class=r><span>QAOA incl. tuning (est.)</span><div class=b style="width:100%;background:#d03b3b">480,000 shots</div></div>
+<h2>3 · Circuit size grows fast; the exact solver stays instant</h2><table><tr><th>grid<th>qubits<th>CX gates (p=1)<th>exact ILP time</tr><tr><td>ieee14_piece6<td>6<td>34<td>2.2 ms<tr><td>ieee14<td>14<td>540<td>7.1 ms<tr><td>ieee30<td>30<td>2,678<td>8.2 ms</table>
+<p>Hardware today handles a few dozen two-qubit gates. Only the 6-bus piece fits.</p>
+<p style="margin-top:14px"><b>Verdict:</b> classical wins on this problem today. We report that, and where quantum could matter later.</p></body></html>

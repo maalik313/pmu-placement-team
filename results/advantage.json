@@ -1,0 +1,97 @@
+{
+ "tts99": {
+  "ieee14_piece6|p=1|alpha=1.0": {
+   "qaoa_shots": 127,
+   "random_shots": 293,
+   "p_optimal": 0.035776178577928364,
+   "rand": 0.015625
+  },
+  "ieee14_piece6|p=1|alpha=0.25": {
+   "qaoa_shots": 20,
+   "random_shots": 293,
+   "p_optimal": 0.21144681395153078,
+   "rand": 0.015625
+  },
+  "ieee14_piece6|p=2|alpha=1.0": {
+   "qaoa_shots": 39,
+   "random_shots": 293,
+   "p_optimal": 0.11306853280070067,
+   "rand": 0.015625
+  },
+  "ieee14_piece6|p=2|alpha=0.25": {
+   "qaoa_shots": 20,
+   "random_shots": 293,
+   "p_optimal": 0.21430890821209664,
+   "rand": 0.015625
+  },
+  "ieee14_piece6|p=3|alpha=1.0": {
+   "qaoa_shots": 40,
+   "random_shots": 293,
+   "p_optimal": 0.11015839071309053,
+   "rand": 0.015625
+  },
+  "ieee14_piece6|p=3|alpha=0.25": {
+   "qaoa_shots": 16,
+   "random_shots": 293,
+   "p_optimal": 0.25306108212454376,
+   "rand": 0.015625
+  },
+  "ieee14|p=1|alpha=1.0": {
+   "qaoa_shots": 181,
+   "random_shots": 15088,
+   "p_optimal": 0.025257961315218277,
+   "rand": 0.00030517578125
+  },
+  "ieee14|p=1|alpha=0.25": {
+   "qaoa_shots": 103,
+   "random_shots": 15088,
+   "p_optimal": 0.04380683552758286,
+   "rand": 0.00030517578125
+  },
+  "ieee14|p=2|alpha=1.0": {
+   "qaoa_shots": 133,
+   "random_shots": 15088,
+   "p_optimal": 0.03413358197339317,
+   "rand": 0.00030517578125
+  },
+  "ieee14|p=2|alpha=0.25": {
+   "qaoa_shots": 63,
+   "random_shots": 15088,
+   "p_optimal": 0.07131048782285905,
+   "rand": 0.00030517578125
+  }
+ },
+ "de_evals_to_optimum_14": {
+  "found": "30/30",
+  "median": 629.5,
+  "max": 1704
+ },
+ "hardware_total_shots_estimate": {
+  "shots_per_cost_estimate": 1000,
+  "tuning_shots": 480000,
+  "note": "the Aer runs used the exact statevector, which a QPU cannot"
+ },
+ "scaling": [
+  {
+   "grid": "ieee14_piece6",
+   "qubits": 6,
+   "cx_p1": 34,
+   "depth": 54,
+   "ilp_ms": 2.2
+  },
+  {
+   "grid": "ieee14",
+   "qubits": 14,
+   "cx_p1": 540,
+   "depth": 550,
+   "ilp_ms": 7.1
+  },
+  {
+   "grid": "ieee30",
+   "qubits": 30,
+   "cx_p1": 2678,
+   "depth": 2551,
+   "ilp_ms": 8.2
+  }
+ ]
+}
