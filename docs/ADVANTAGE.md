@@ -44,3 +44,21 @@ Minimum with the zero-injection rule: IEEE 14: 3, 30: 7, 57: 11, 118: 30 (vs 4, 
 - QAOA versions of the budget / N-1 / critical formulations (cost function: P x (2 - sightings)).
 - Hardware: optional real QPU run of the 6-bus piece (credits; confirm price first).
 - Sample-based tuning (shots, not statevector) on the 6-bus piece to measure real tuning cost.
+
+
+## Hybrid pipeline (`src/hybrid.py`, `src/hybrid_study.py`, `results/hybrid_study.json`)
+Classical kernel (degree-1 rule) -> classical partition (Kernighan-Lin, pieces of <=10 sites) -> **per-piece solver** -> classical ILP repair -> classical prune -> checker proves validity. Every solver gets the same 200 samples per piece; 6 seeds each (noise-free Aer shots for QAOA, p=2, CVaR 0.25). All final placements passed the checker.
+Final PMU count, piece size cap 10, mean (min-max over seeds):
+
+| grid | exact optimum | per-piece exact (floor of this decomposition) | QAOA | random | SciPy DE |
+|---|---|---|---|---|---|
+| ieee30 | 10 | 10.0 (10-10) | 10.5 (10-11) | 10.7 (10-11) | 10.5 (10-11) |
+| ieee57 | 17 | 19.0 (19-19) | 19.3 (19-20) | 18.3 (18-20) | 18.8 (18-20) |
+| ieee118 | 32 | 36.0 (36-36) | 36.5 (34-39) | 36.2 (35-38) | 35.5 (33-37) |
+
+**What this shows (and does not):**
+1. **No quantum advantage here.** QAOA is statistically indistinguishable from random sampling and SciPy differential evolution (seed spread is as large as the differences). On IEEE 57 and 118 it was slightly worse on average.
+2. **Why:** the pieces are 5-10 qubits (32-1,024 bitstrings), so 200 random samples already cover a large share of each piece's search space. There is nothing for quantum to speed up at this size.
+3. **The real loss is the decomposition, not the solver.** Even solving every piece *exactly* gives 19 / 36 instead of 17 / 32 on IEEE 57 / 118, because cutting the grid ignores sensors that serve two pieces. A global classical re-optimisation closes that gap; the quantum step cannot.
+4. **What hybrid does buy:** the circuit size. Pieces of <=10 qubits need far fewer gates than the 14-30 qubit full circuits (see Resource scaling above), which is what current hardware can run.
+5. Honest pitch line: *the hybrid design is the only way to fit this problem on today's quantum hardware, and it preserves validity (checker-proven); it does not (yet) improve answers, and our ablation shows where it would have to.*
