@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PMU Placement Explorer</title>
+<style>:root{--bg:#fff;--fg:#1c1c1a;--mut:#6b6a65;--line:#b9b8b3;--s:#2a78d6;--seen:#cde2fb;--bad:#d03b3b;--ok:#1d8a4f;--card:#f5f4f0}
+@media(prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#ecebe6;--mut:#9b9a94;--line:#55544f;--seen:#1e3a5f;--card:#222226}}
+body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:15px system-ui,sans-serif;max-width:920px;margin:auto}
+h1{font-size:20px;margin:0 0 4px}p{color:var(--mut);margin:4px 0 12px}svg{width:100%;height:auto;background:var(--card);border-radius:10px}
+button{font:inherit;padding:6px 10px;margin:3px 4px 3px 0;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+button.on{background:var(--s);color:#fff;border-color:var(--s)}label{margin-right:14px;white-space:nowrap}
+#st{font-size:17px;margin:10px 0;font-weight:600}table{border-collapse:collapse;width:100%;margin-top:8px}td,th{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}</style></head><body>
+<h1>IEEE 14-bus: click substations to place PMU sensors</h1><p>A sensor sees its own substation and every neighbor one line away. Goal: see all 14 with the fewest sensors.</p>
+<div id=pre></div><div><label><input type=checkbox id=zib> zero-injection rule (bus 7)</label><label><input type=checkbox id=n1> N-1: any one sensor can fail</label><button id=clr>Clear</button></div>
+<div id=st></div><svg id=svg viewBox="-1.25 -1.25 2.5 2.5"></svg>
+<p style="margin-top:14px"><b>Does the exact answer stay easy as grids grow?</b> Real numbers from <code>src/baseline.py</code> (SciPy/HiGHS):</p><table id=tb></table>
+<script>const D={"buses": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "lines": [[1, 2], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [4, 5], [4, 7], [4, 9], [5, 6], [6, 11], [6, 12], [6, 13], [7, 8], [7, 9], [9, 10], [9, 14], [10, 11], [12, 13], [13, 14]], "zib": [7], "gens": [1, 2, 3, 6, 8], "pos": {"1": [0.99, 0.271], "2": [0.538, 0.526], "5": [0.471, 0.04], "3": [0.296, 0.959], "4": [0.021, 0.456], "7": [-0.503, 0.618], "9": [-0.446, 0.111], "6": [0.313, -0.534], "11": [-0.373, -0.762], "12": [0.596, -0.996], "13": [0.11, -0.931], "8": [-0.898, 1.0], "10": [-0.815, -0.317], "14": [-0.298, -0.442]}, "presets": {"Greedy (5)": [4, 6, 9, 1, 7], "Exact ILP (4)": [2, 7, 11, 13], "With zero-injection rule (3)": [2, 6, 9], "N-1: survives any failure (9)": [2, 4, 5, 6, 7, 8, 9, 11, 13]}, "scale": [["ieee14_piece6", 6, 2, 2, 5, 1.8], ["ieee14", 14, 5, 4, 9, 6.3], ["ieee30", 30, 10, 10, 21, 8.5], ["ieee57", 57, 18, 17, 33, 27.2], ["ieee118", 118, 36, 32, 68, 37.2], ["ieee300", 300, 96, 87, 202, 17.2]]};let ch=new Set();const N={};D.buses.forEach(b=>N[b]=new Set([b]));D.lines.forEach(([a,b])=>{N[a].add(b);N[b].add(a)});
+function seen(c,z){const s=new Set();c.forEach(b=>N[b].forEach(x=>s.add(x)));if(z){let ch2=true;while(ch2){ch2=false;D.zib.forEach(q=>{const m=[...N[q]].filter(x=>!s.has(x));if(m.length==1){s.add(m[0]);ch2=true}})}}return s}
+function valid(c,z,n1){const all=D.buses.length;if(seen(c,z).size<all)return false;if(n1)return c.every(l=>seen(c.filter(x=>x!=l),z).size==all);return true}
+const $=id=>document.getElementById(id);
+function draw(){const c=[...ch],z=$('zib').checked,n1=$('n1').checked,s=seen(c,z);let h='';
+D.lines.forEach(([a,b])=>{h+=`<line x1=${D.pos[a][0]} y1=${D.pos[a][1]} x2=${D.pos[b][0]} y2=${D.pos[b][1]} stroke="var(--line)" stroke-width=.025 />`});
+D.buses.forEach(b=>{const [x,y]=D.pos[b],on=ch.has(b),sn=s.has(b);h+=`<g data-b=${b} style="cursor:pointer"><circle cx=${x} cy=${y} r=.085 fill="${on?'var(--s)':sn?'var(--seen)':'var(--bg)'}" stroke="${sn?'var(--s)':'var(--bad)'}" stroke-width=.025 /><text x=${x} y=${y+.03} text-anchor=middle font-size=.08 fill="${on?'#fff':'var(--fg)'}">${b}</text>${D.zib.includes(b)?`<text x=${x} y=${y+.16} text-anchor=middle font-size=.05 fill="var(--mut)">zero-inj</text>`:''}</g>`});
+$('svg').innerHTML=h;document.querySelectorAll('g[data-b]').forEach(e=>e.onclick=()=>{const b=+e.dataset.b;ch.has(b)?ch.delete(b):ch.add(b);draw()});
+const un=D.buses.filter(b=>!s.has(b)),v=valid(c,z,n1);
+$('st').innerHTML=`${c.length} sensors · sees ${s.size}/14 · `+(v?`<span style="color:var(--ok)">VALID${n1?' (survives any single failure)':''}</span>`:un.length?`<span style="color:var(--bad)">unseen: ${un.join(', ')}</span>`:`<span style="color:var(--bad)">sees all, but losing one sensor blinds a bus</span>`)}
+Object.entries(D.presets).forEach(([k,v])=>{const e=document.createElement('button');e.textContent=k;e.onclick=()=>{ch=new Set(v);$('zib').checked=k.includes('zero');$('n1').checked=k.startsWith('N-1');draw()};$('pre').appendChild(e)});
+$('zib').onchange=$('n1').onchange=draw;$('clr').onclick=()=>{ch=new Set();draw()};
+$('tb').innerHTML='<tr><th>grid<th>buses<th>greedy<th>exact ILP<th>N-1 ILP<th>ILP ms</tr>'+D.scale.map(r=>'<tr>'+r.map(x=>`<td>${x}`).join('')+'</tr>').join('');draw()</script></body></html>
