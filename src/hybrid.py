@@ -23,6 +23,7 @@ from check import load_grid, is_valid
 ROOT = Path(__file__).parent.parent
 SIM = AerSimulator(method="statevector")
 P_PEN = 2.0
+QAOA_RESTARTS, QAOA_ITERS = 3, 100   # lowered by hybrid_big.py for 16-qubit pieces
 
 # ---------- generic QAOA cost for "cover these targets using these sites" ----------
 def op_from_groups(n, groups, P=P_PEN):
@@ -42,11 +43,23 @@ def op_from_groups(n, groups, P=P_PEN):
     return SparsePauliOp(lab, co).simplify()
 
 def costs_from_groups(n, groups, P=P_PEN):
-    z = np.arange(2 ** n); x = (z[:, None] >> np.arange(n)) & 1
-    return x.sum(1) + P * sum((x[:, g].sum(1) == 0).astype(int) for g in groups)
+    z = np.arange(2 ** n, dtype=np.int64); bits = [((z >> i) & 1).astype(np.int8) for i in range(n)]
+    cost = np.zeros(2 ** n)
+    for b in bits: cost += b
+    for g in groups:
+        none = np.ones(2 ** n, dtype=bool)
+        for j in g: none &= bits[j] == 0
+        cost += P * none
+    return cost
 
 def cvar(p, c, a):
     o = np.argsort(c); pr, cc = p[o], c[o]; take = np.clip(a - (np.cumsum(pr) - pr), 0, pr); return take @ cc / a
+
+def make_cvar(c):
+    lev, inv = np.unique(c, return_inverse=True)
+    def f(p, a):
+        w = np.bincount(inv, weights=p, minlength=len(lev)); take = np.clip(a - (np.cumsum(w) - w), 0, w); return take @ lev / a
+    return f
 
 def qaoa_probs_fn(n, groups, reps):
     qc = QAOAAnsatz(op_from_groups(n, groups), reps=reps).decompose(reps=3); qc.save_statevector()
@@ -71,9 +84,9 @@ def solve_piece(kind, n, groups, budget, rng, reps=2, alpha=0.25):
         return best[0], budget
     if kind == "qaoa":
         probs = qaoa_probs_fn(n, groups, reps)
-        obj = lambda th: cvar(probs(th), c, alpha); best = None
-        for _ in range(3):
-            r = minimize(obj, rng.uniform(0, np.pi, 2 * reps), method="COBYLA", options=dict(maxiter=100))
+        cv = make_cvar(c); obj = lambda th: cv(probs(th), alpha); best = None
+        for _ in range(QAOA_RESTARTS):
+            r = minimize(obj, rng.uniform(0, np.pi, 2 * reps), method="COBYLA", options=dict(maxiter=QAOA_ITERS))
             best = r if best is None or r.fun < best.fun else best
         p = probs(best.x); p = p / p.sum()
         z = rng.choice(2 ** n, budget, p=p)                       # `budget` noise-free shots from the tuned circuit
@@ -119,7 +132,7 @@ def run(g, kind, cap=10, budget=200, seed=0, reps=2, verbose=False):
     forced, seen, N = kernel(g); G = nx.Graph(g["lines"]); G.add_nodes_from(g["buses"])
     undominated = [b for b in g["buses"] if b not in seen]
     sites = sorted(set().union(*[N[u] for u in undominated])) if undominated else []
-    qubits_total = len(sites); chosen = set(forced); qstage = 0; pieces = []
+    qubits_total = len(sites); chosen = set(forced); qstage = 0; pieces = []; gaps = []
     for S in partition(G, sites, cap):
         T = [t for t in S if t not in seen]                                    # still-unseen buses inside this piece
         use = sorted({s for t in T for s in N[t] if s in S}); idx = {s: i for i, s in enumerate(use)}
@@ -127,14 +140,15 @@ def run(g, kind, cap=10, budget=200, seed=0, reps=2, verbose=False):
         if not keep: continue
         groups = [gr for _, gr in keep]; n = len(use)
         z, _ = solve_piece(kind, n, groups, budget, rng, reps)
+        cc = costs_from_groups(n, groups); gaps.append(float(cc[z] - cc.min())); del cc
         pick = [use[i] for i in range(n) if (z >> i) & 1]
         for s in pick: chosen.add(s); seen |= N[s]
         qstage += len(pick); pieces.append(n)
-    rep = repair(g, seen, N); chosen |= set(rep)
+    unseen_after = len([b for b in g["buses"] if b not in seen]); rep = repair(g, seen, N); chosen |= set(rep)
     final = prune(g, chosen)
     assert is_valid(g, final), "pipeline produced an invalid placement"
     return dict(grid=g["name"], solver=kind, forced=len(forced), qubits_unreduced=len(g["buses"]), qubits_after_kernel=qubits_total,
-                pieces=pieces, from_pieces=qstage, repair_added=len(rep), before_prune=len(chosen), final=len(final),
+                pieces=pieces, piece_cost_gap=round(sum(gaps), 2), unseen_after_pieces=unseen_after, from_pieces=qstage, repair_added=len(rep), before_prune=len(chosen), final=len(final),
                 sec=round(time.perf_counter() - t0, 1))
 
 if __name__ == "__main__":

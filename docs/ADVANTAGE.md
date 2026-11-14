@@ -62,3 +62,20 @@ Final PMU count, piece size cap 10, mean (min-max over seeds):
 3. **The real loss is the decomposition, not the solver.** Even solving every piece *exactly* gives 19 / 36 instead of 17 / 32 on IEEE 57 / 118, because cutting the grid ignores sensors that serve two pieces. A global classical re-optimisation closes that gap; the quantum step cannot.
 4. **What hybrid does buy:** the circuit size. Pieces of <=10 qubits need far fewer gates than the 14-30 qubit full circuits (see Resource scaling above), which is what current hardware can run.
 5. Honest pitch line: *the hybrid design is the only way to fit this problem on today's quantum hardware, and it preserves validity (checker-proven); it does not (yet) improve answers, and our ablation shows where it would have to.*
+
+
+## Bigger pieces, with a fair control (`src/hybrid_big.py`, `src/hybrid_fair.py`)
+Pieces now up to 23 qubits (IEEE 30 as one piece: 8.4M bitstrings; IEEE 57/118: 13-14 qubits). QAOA p=1, CVaR 0.25, 30 tuning evaluations on the exact statevector, then 200 noise-free shots. Entries: mean final PMU count (mean **piece-cost gap**: how far the piece answer was from that piece's optimum, measured *before* the ILP repair and prune can hide it). QAOA: 5/4/3 seeds; classical: 10 seeds.
+
+| grid (pieces) | optimum | QAOA, 200 shots | random, 200 | DE, 200 | random, 30,200 | DE, 30,200 |
+|---|---|---|---|---|---|---|
+| ieee30 (1 x 23 qubits) | 10 | 10.0 (gap 0.4) | 10.4 (gap 2.4) | 10.6 (gap 2.5) | 10.0 (gap 0.1) | 10.0 (gap 0.0) |
+| ieee57 (4 x ~14) | 17 | 18.2 (gap 1.2) | 18.8 (gap 4.3) | 19.3 (gap 3.0) | 17.9 (gap 0.1) | 18.1 (gap 0.4) |
+| ieee118 (8 x ~13) | 32 | 34.0 (gap 1.3) | 37.0 (gap 6.9) | 36.3 (gap 4.9) | 35.2 (gap 0.0) | 35.1 (gap 0.0) |
+
+**Reading it honestly:**
+1. **At equal final samples (200), QAOA wins clearly at piece level:** gap 0.4 / 1.2 / 1.3 versus 2.4-6.9 for random and 2.5-4.9 for DE. Random sampling cannot search 8.4M bitstrings with 200 draws; QAOA's tuned circuit concentrates probability on good ones. This is the only place we saw a quantum benefit.
+2. **At equal *total* budget it disappears.** QAOA also needed ~30 tuning evaluations; on a QPU that is roughly 30 x 1,000 = 30,000 shots. Give random and DE the same 30,200 samples and their piece gap falls to ~0-0.4 and their final counts match or beat QAOA (IEEE 30: 10.0 vs 10.0; IEEE 57: 17.9 / 18.1 vs 18.2). 
+3. **Not explained:** on IEEE 118 QAOA's final count (34.0, 3 seeds) beat the controls (35.1-35.2), even though its piece-level gap was worse. The sequential decomposition is path-dependent, so we do not claim this as a quantum effect; more seeds are needed.
+4. **Caveats that favour QAOA here and would not survive hardware:** tuning used the exact probability vector (a QPU only gives shots); circuits were noise-free; a classical sample is a lookup costing microseconds, a quantum sample is a real shot. And the exact ILP gets the optimum in ~8 ms, so none of this beats the baseline TVA already has.
+5. **Defensible claim:** *with a small sample budget, QAOA is a much better sampler than random search or a stock heuristic on a 23-qubit search space; once total cost is counted fairly, classical sampling catches up. We found no end-to-end advantage.*
