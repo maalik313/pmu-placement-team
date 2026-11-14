@@ -29,8 +29,8 @@ Deadline: **Sunday Nov 15, 9:00 AM** (deck + code ZIP). Qbraid check-in Sat 7 PM
 | Runs on available hardware now | 0.15 | 5 | 5 | 3 | 1 | 3 |
 | Handles ZIB / N-1 / weights | 0.15 | 2 | 5 | 3 | 3 | 5 |
 | Insight on quantum value (the question asked) | 0.20 | 1 | 1 | 5 | 4 | 5 |
-| **Weighted** | | 2.65 | 3.80 | 3.00 | 2.60 | **4.30** |
-(Compute the sums yourselves before presenting; edit the weights to reflect the customer.)
+| **Weighted** | | 2.85 | 4.20 | 3.00 | 2.70 | **4.50** |
+(Totals checked by script; edit the weights to reflect the customer.)
 
 ## Preliminary design -> detailed design = TVA milestones M1-M6
 Iterate: build on Aer -> compare with ILP -> add noise (IonQ sim) -> emulator (H2) -> QPU.
