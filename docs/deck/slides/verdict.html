@@ -1,0 +1,11 @@
+<section id="verdict" class="amber">
+<p class="eyebrow">THE VERDICT</p>
+<h2 style="font-size:64px; line-height:1.1;">Classical wins today. Use the exact solver for TVA’s placement.</h2>
+<div class="cards">
+<div class="card"><h3>What we found</h3><p>At 200 samples on 23-qubit pieces, QAOA’s piece gap was 0.4 versus 2.4 for random. Give random and DE the same total budget (30,200 samples) and the gap closes.</p></div>
+<div class="card"><h3>What we did not find</h3><p>No speedup or quality win over the exact ILP, which solves IEEE 300 in about 17 ms.</p></div>
+<div class="card"><h3>Where it could matter</h3><p>Hypotheses, not results: larger N-1, weighted and budgeted variants, and better hardware.</p></div>
+</div>
+<p style="font-size:32px; line-height:1.35; font-weight:600; color:#14213D;">For TVA: the real cost is installation ($40k–$180k per PMU), communications and timing, not choosing the locations.</p>
+<aside>Close on honesty. We found no end-to-end quantum advantage and we say so; the track README warns against crediting quantum for what the ILP already does. The defensible claim: with a small sample budget QAOA is a much better sampler than random search on a 23-qubit space, and once tuning cost is counted fairly classical sampling catches up. Piece-gap numbers are from results/hybrid_big.json and hybrid_fair.json. Next steps if we continue: QAOA versions of N-1 and budget, shot-based tuning on the 6-bus piece, and a priced QPU run.</aside>
+</section>

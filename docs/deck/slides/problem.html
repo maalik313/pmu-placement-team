@@ -1,0 +1,14 @@
+<section id="problem" class="light" style="gap:32px;">
+<p class="eyebrow">THE PROBLEM</p>
+<h2 style="font-size:64px; line-height:1.1;">Fewest sensors, least robust design</h2>
+<p class="lead">Goal: every substation observable. We solved it exactly, then priced in a failed PMU (IEEE 14, $110k per PMU).</p>
+<table class="tbl">
+<tr><th style="width:36%; text-align:left;">Design</th><th style="width:14%; text-align:left;">PMUs</th><th style="width:18%; text-align:left;">Cost</th><th style="width:32%; text-align:left;">If one PMU fails</th></tr>
+<tr style="background:#FFFFFF;"><td>Full observability</td><td>4</td><td>$0.44M</td><td>4 buses unseen</td></tr>
+<tr><td>With zero-injection rule</td><td>3</td><td>$0.33M</td><td>5 buses unseen</td></tr>
+<tr style="background:#FFFFFF;"><td>Critical buses seen twice</td><td>5</td><td>$0.55M</td><td>3 buses unseen</td></tr>
+<tr><td>N-1: every bus seen twice</td><td>9</td><td>$0.99M</td><td>0 buses unseen</td></tr>
+</table>
+<p class="small">Exact optimum on the larger TVA grids: IEEE 30 needs 10, 57 needs 17, 118 needs 32, 300 needs 87, each solved in under 40 ms.</p>
+<aside>The point of this slide: the headline number, four PMUs, is not the whole answer. Redundancy costs money and the planner chooses where to stand. Costs use the DOE 2014 range of $40k to $180k per installed PMU, mid-case $110k. Source: results/pareto.json and results/baseline.json. Which buses serve which application is our assumption, since TVA shared no bus-level data; ask a TVA mentor to replace it.</aside>
+</section>

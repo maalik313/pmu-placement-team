@@ -1,0 +1,44 @@
+body { font-family: 'Inter', Arial, sans-serif; }
+section { counter-increment: page; padding: 128px 128px 160px; display: flex; flex-direction: column; gap: 40px; }
+section h1, section h2, section h3 { font-family: 'Space Grotesk', Arial, sans-serif; }
+section::after { content: counter(page); position: absolute; right: 128px; bottom: 64px; font-size: 24px; }
+
+.dark { background: #0F1B2D; color: #F4F1EA; }
+.dark h1, .dark h2, .dark h3 { color: #F4F1EA; }
+.dark p { color: #C5CEDB; }
+.dark::after { color: #8A97AB; }
+.light { background: #F4F1EA; color: #1B2A41; }
+.light h1, .light h2, .light h3 { color: #14213D; }
+.light p { color: #3F4B5E; }
+.light::after { color: #6B7688; }
+.amber { background: #F2B84B; color: #14213D; }
+.amber h2 { color: #14213D; }
+.amber::after { color: #14213D; }
+
+.eyebrow { font-size: 28px; font-weight: 600; letter-spacing: 3px; }
+.dark .eyebrow { color: #F2B84B; }
+.light .eyebrow { color: #A5600A; }
+.amber .eyebrow { color: #14213D; }
+.lead { font-size: 36px; line-height: 1.35; }
+.small { font-size: 26px; line-height: 1.35; }
+
+.cards { display: flex; flex-direction: row; gap: 32px; }
+.card { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 36px; border-radius: 20px; }
+.light .card { background: #FFFFFF; }
+.dark .card { background: #1A2B45; }
+.amber .card { background: #14213D; }
+.amber .card h3 { color: #F2B84B; }
+.amber .card p { color: #E6E9EF; }
+.card h3 { font-size: 36px; line-height: 1.15; }
+.card p { font-size: 28px; line-height: 1.35; }
+.card .step { font-size: 26px; font-weight: 600; letter-spacing: 2px; color: #A5600A; }
+.dark .card .step { color: #F2B84B; }
+
+.num { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 120px; font-weight: 700; line-height: 1; color: #F2B84B; }
+.num-small { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 72px; font-weight: 700; line-height: 1; color: #F2B84B; }
+
+.tbl { font-size: 32px; font-family: 'Inter', Arial, sans-serif; color: #1B2A41; }
+.strip { display: flex; flex-direction: row; gap: 24px; }
+.chip { flex: 1; padding: 24px 28px; border-radius: 16px; background: #14213D; display: flex; flex-direction: column; gap: 6px; }
+.chip .big { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 56px; font-weight: 700; line-height: 1; color: #F2B84B; }
+.chip .lbl { font-size: 26px; color: #C5CEDB; }

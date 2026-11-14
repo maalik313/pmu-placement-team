@@ -1,0 +1,19 @@
+<section id="approach" class="light" style="gap:28px;">
+<p class="eyebrow">THE DESIGN</p>
+<h2 style="font-size:64px; line-height:1.1;">A hybrid pipeline, verified step by step</h2>
+<div class="cards">
+<div class="card"><p class="step">1 · KERNEL</p><h3>Shrink</h3><p>Degree-1 rule fixes forced sensors.</p></div>
+<div class="card"><p class="step">2 · PARTITION</p><h3>Cut</h3><p>Kernighan–Lin pieces, up to 23 qubits.</p></div>
+<div class="card"><p class="step">3 · QUANTUM</p><h3>QAOA</h3><p>CVaR objective on each piece.</p></div>
+<div class="card"><p class="step">4 · REPAIR</p><h3>ILP + prune</h3><p>Classical repair of the combined answer.</p></div>
+<div class="card"><p class="step">5 · PROVE</p><h3>Checker</h3><p>Every placement validated.</p></div>
+</div>
+<h3 style="font-size:36px;">Verification ladder, cheapest first</h3>
+<div class="cards">
+<div class="card"><h3>Qiskit Aer</h3><p>Free. Cost layer and sweeps.</p></div>
+<div class="card"><h3>IonQ simulator</h3><p>Forte-1 noise model.</p></div>
+<div class="card"><h3>H2 emulator</h3><p>Second noise model.</p></div>
+<div class="card"><h3>IonQ QPU</h3><p>Not run: credits and price unconfirmed.</p></div>
+</div>
+<aside>Our decision matrix scored hybrid 4.50, exact ILP 4.20, QAOA 3.00, greedy 2.85 and annealer 2.70. Those scores are team judgement, not measurements. The ILP is the reference and the checker proves every answer valid, so no quantum result is trusted on its own. All job IDs are in results/run_record.md. Be upfront that we did not run a real QPU.</aside>
+</section>
