@@ -1,0 +1,431 @@
+<title>Tiger Qubits Pitch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: full-screen 3D scene (a real 14-substation grid) behind a stack of glass slides that swing in on a Y-axis hinge. Text left, live visual right. */
+:root {
+  --bg: #08131c;          /* deep slate */
+  --panel: rgba(9, 22, 33, .74);
+  --fg: #e8f1f6;
+  --muted: #98aebe;
+  --line: rgba(152, 174, 190, .22);
+  --sensor: #ffb02e;      /* amber: a sensor is installed */
+  --seen: #35d0bd;        /* teal: substation is observed */
+  --lost: #ff6161;        /* coral: substation is blind */
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); overflow: hidden; }
+#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+#deck { position: fixed; inset: 0; perspective: 2200px; perspective-origin: 50% 45%; }
+.slide {
+  position: absolute; inset: 0; display: grid; align-content: center;
+  padding-block: max(56px, calc(env(safe-area-inset-top, 0px) + 24px)) 96px;
+  padding-left: max(24px, 6vw, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, 6vw, env(safe-area-inset-right, 0px));
+  transition: transform 1s cubic-bezier(.22, .8, .2, 1), opacity .7s ease;
+  transform-origin: 50% 50%; will-change: transform, opacity;
+  pointer-events: none; opacity: 0;
+}
+.slide.prev { transform: translate3d(-62%, 0, -700px) rotateY(62deg); }
+.slide.next { transform: translate3d(62%, 0, -700px) rotateY(-62deg); }
+.slide.on { transform: none; opacity: 1; pointer-events: auto; }
+.panel {
+  width: min(600px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: clamp(20px, 3vw, 40px); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  display: grid; gap: 20px; min-width: 0; max-height: 100%; overflow-y: auto;
+}
+.eyebrow { font: 500 .78rem var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--sensor); margin: 0; }
+h1, h2 { font-family: var(--display); font-weight: 700; line-height: 1.04; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.3rem, 5vw, 4.4rem); }
+h2 { font-size: clamp(1.9rem, 3.6vw, 3.1rem); }
+.lede { font-size: clamp(1.05rem, 1.6vw, 1.35rem); color: var(--muted); margin: 0; line-height: 1.45; }
+.pts { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.pts li { font-size: clamp(1.02rem, 1.5vw, 1.28rem); line-height: 1.4; display: grid; grid-template-columns: auto 1fr; gap: 14px; }
+.pts b { color: var(--fg); font-weight: 600; }
+.pts i { font-style: normal; font: 500 .8rem var(--mono); color: var(--bg); background: var(--sensor); border-radius: 4px; padding: 3px 7px; height: fit-content; margin-top: 4px; letter-spacing: .06em; }
+.big { display: flex; align-items: baseline; gap: 14px; font-family: var(--display); font-weight: 700; flex-wrap: wrap; }
+.big span { font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; }
+.big .a { color: var(--sensor); } .big .b { color: var(--lost); } .big small { font: 400 1rem var(--body); color: var(--muted); }
+.take { font-family: var(--display); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 500; border-top: 1px solid var(--line); padding-top: 16px; margin: 0; line-height: 1.3; }
+.status { font: 500 .82rem var(--mono); color: var(--muted); margin: 0; }
+.status em { font-style: normal; color: var(--sensor); }
+.rubric { display: none; font: 500 .72rem var(--mono); color: var(--seen); letter-spacing: .04em; margin: 0; }
+body.show-rubric .rubric { display: block; }
+.slide.wide { grid-template-rows: auto 1fr; align-content: stretch; }
+.slide.wide .panel { width: min(760px, 100%); }
+.team { align-self: end; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 10px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font: 700 1.1rem var(--display); color: var(--bg); background: linear-gradient(140deg, var(--sensor), var(--seen)); }
+.card h3 { margin: 0; font: 700 1.15rem/1.15 var(--display); }
+.card p { margin: 0; font-size: .88rem; color: var(--muted); line-height: 1.35; }
+.tbd { font: 500 .72rem var(--mono); color: var(--sensor); letter-spacing: .06em; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.cols h4 { margin: 0 0 6px; font: 500 .74rem var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--sensor); }
+.cols p { margin: 0; font-size: 1rem; line-height: 1.4; }
+.caption { position: fixed; right: max(24px, 5vw); bottom: 92px; max-width: 340px; text-align: right; font: 500 .9rem var(--mono); color: var(--seen); pointer-events: none; transition: opacity .3s; }
+#hud { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 14px max(16px, env(safe-area-inset-right, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: linear-gradient(transparent, rgba(8,19,28,.9)); z-index: 5; }
+#dots { display: flex; gap: 10px; }
+#dots button { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--muted); background: transparent; padding: 0; cursor: pointer; }
+#dots button[aria-current="true"] { background: var(--sensor); border-color: var(--sensor); transform: scale(1.25); }
+.tools { display: flex; gap: 8px; align-items: center; }
+.tools button, .nav { font: 500 .78rem var(--mono); color: var(--fg); background: rgba(152,174,190,.12); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.tools button:hover, .nav:hover { background: rgba(152,174,190,.24); }
+#timer.over { color: var(--lost); border-color: var(--lost); }
+button:focus-visible { outline: 2px solid var(--sensor); outline-offset: 2px; }
+@media (max-width: 820px) {
+  .panel { background: rgba(9, 22, 33, .84); }
+  .cols { grid-template-columns: 1fr; }
+  .team { grid-template-columns: repeat(2, minmax(0, 1fr)); overflow-y: auto; max-height: 55vh; }
+  .caption { display: none; }
+  .slide { padding-block: 40px 90px; align-content: start; }
+}
+@media (prefers-reduced-motion: reduce) { .slide { transition: opacity .2s; transform: none !important; } .slide:not(.on) { opacity: 0; } }
+</style>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<main id="deck">
+  <section class="slide on" data-mode="idle" data-rubric="Opening">
+    <div class="panel">
+      <p class="eyebrow">Tennessee Quantum Hackathon · Power grid track</p>
+      <h1>Where should a power company put its grid sensors?</h1>
+      <p class="lede">And can a quantum computer help decide?</p>
+      <p class="take">Team Tiger Qubits · November 13–15, 2026</p>
+    </div>
+  </section>
+
+  <section class="slide" data-mode="fail" data-rubric="Rubric: Problem significance">
+    <div class="panel">
+      <p class="eyebrow">1 · The problem</p>
+      <h2>A power company has to see its whole grid, live.</h2>
+      <ul class="pts">
+        <li><i>WHAT</i><span><b>Sensors called PMUs</b> read the grid many times a second. Each costs $40k–$180k to install.</span></li>
+        <li><i>GOAL</i><span>Use <b>as few as possible</b> and still watch every substation. On our 14-substation test grid that is 4.</span></li>
+        <li><i>CATCH</i><span><b>Four is fragile.</b> Lose one sensor and 4 substations go dark. Watching each one twice takes 9 sensors.</span></li>
+      </ul>
+      <div class="big"><span class="a">4</span><small>sensors, cheapest</small><span class="b">9</span><small>sensors, safest</small></div>
+      <p class="rubric">Rubric: Problem significance</p>
+    </div>
+  </section>
+
+  <section class="slide" data-mode="ok" data-rubric="Rubric: Customer understanding, Commercial potential">
+    <div class="panel">
+      <p class="eyebrow">2 · Who needs this</p>
+      <h2>The people who decide where sensors go.</h2>
+      <ul class="pts">
+        <li><i>BUYS</i><span><b>Electric utilities</b>: the companies that run the power grid.</span></li>
+        <li><i>USES</i><span><b>Grid planning engineers.</b> The planning lead owns the budget and signs off.</span></li>
+        <li><i>WHY YES</i><span>A placement they can <b>check</b>, <b>priced options</b> from cheap to robust, and a straight answer on whether quantum is worth paying for.</span></li>
+      </ul>
+      <p class="status">To confirm with an industry mentor.</p>
+      <p class="rubric">Rubric: Customer understanding · Commercial potential</p>
+    </div>
+  </section>
+
+  <section class="slide" data-mode="search" data-rubric="Rubric: Technical validity, Solution demonstration, Innovation, Quantum relevance">
+    <div class="panel">
+      <p class="eyebrow">3 · What we built</p>
+      <h2>A quantum search, double-checked by classical math.</h2>
+      <ul class="pts">
+        <li><i>METHOD</i><span>Each substation is a yes or no: sensor or not. A quantum algorithm (<b>QAOA</b>) tries many combinations at once and favors the good ones.</span></li>
+        <li><i>BUILD</i><span>Shrink the grid, split it into pieces, <b>search each piece</b>, repair, then a <b>checker proves</b> every substation is covered.</span></li>
+        <li><i>STATUS</i><span><b>Works</b> on simulators and two real quantum chips (Rigetti, IonQ). <b>Unproven:</b> any win over the classical exact solver.</span></li>
+      </ul>
+      <p class="status" id="forteStatus">IonQ Forte hardware run: <em>completed · 13.5% optimal</em></p>
+      <p class="rubric">Rubric: Technical validity · Demonstration · Innovation · Quantum relevance</p>
+    </div>
+  </section>
+
+  <section class="slide wide" data-mode="ok" data-rubric="Rubric: Practical feasibility (a complete team)">
+    <div class="panel">
+      <p class="eyebrow">4 · The team</p>
+      <h2>Five people, one grid.</h2>
+      <p class="rubric">Rubric: Practical feasibility</p>
+    </div>
+    <div class="team">
+      <div class="card"><div class="av">TM</div><h3>Theopolis MaCnificent</h3><p class="tbd">ROLE · ADD</p><p>What they built: add</p></div>
+      <div class="card"><div class="av">JM</div><h3>Jordan Milsap</h3><p class="tbd">ROLE · ADD</p><p>What they built: add</p></div>
+      <div class="card"><div class="av">JP</div><h3>Jennifer Pirkle</h3><p class="tbd">ROLE · ADD</p><p>What they built: add</p></div>
+      <div class="card"><div class="av">MM</div><h3>Maalik Matthews</h3><p class="tbd">ROLE · ADD</p><p>What they built: add</p></div>
+      <div class="card"><div class="av">DA</div><h3>Donnie Apple</h3><p class="tbd">ROLE · ADD</p><p>What they built: add</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-mode="bars" data-rubric="Rubric: Technical validity, Quantum relevance, Practical feasibility">
+    <div class="panel">
+      <p class="eyebrow">5 · What we learned</p>
+      <h2>Classical wins today. Quantum has a signal.</h2>
+      <div class="cols">
+        <div><h4>Proved</h4><p>The exact solver finds the true best answer for grids up to 300 substations in milliseconds.</p></div>
+        <div><h4>Surprised us</h4><p>No quantum speedup. Count the tuning cost fairly and random search catches up.</p></div>
+        <div><h4>Next</h4><p>Harder versions, like seeing every substation twice, on bigger grids and better chips.</p></div>
+      </div>
+      <p class="take">Utilities should use the exact solver today. Here is where quantum could matter next.</p>
+      <p class="rubric">Rubric: Technical validity · Quantum relevance · Feasibility</p>
+    </div>
+  </section>
+</main>
+
+<div class="caption" id="caption"></div>
+
+<div id="hud">
+  <div id="dots" role="tablist" aria-label="Slides"></div>
+  <div class="tools">
+    <button id="prevBtn" class="nav" aria-label="Previous slide">←</button>
+    <button id="nextBtn" class="nav" aria-label="Next slide">→</button>
+    <button id="rubricBtn" aria-pressed="false" title="Show which judging criterion each slide earns (R)">Rubric</button>
+    <button id="timer" title="5-minute timer (T)">5:00</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  /* ---------- Editable facts ---------- */
+  var FORTE_STATUS = "completed · 13.5% optimal";
+  var FORTE_EL = document.getElementById("forteStatus");
+  if (FORTE_EL) FORTE_EL.querySelector("em").textContent = FORTE_STATUS;
+
+  /* ---------- Slide navigation ---------- */
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var dotsEl = document.getElementById("dots");
+  var cur = 0, modeStart = 0;
+  slides.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.setAttribute("aria-label", "Go to slide " + (i + 1));
+    b.addEventListener("click", function () { go(i); });
+    dotsEl.appendChild(b);
+  });
+  function go(i) {
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, k) {
+      s.classList.toggle("on", k === cur);
+      s.classList.toggle("prev", k < cur);
+      s.classList.toggle("next", k > cur);
+    });
+    Array.prototype.forEach.call(dotsEl.children, function (d, k) { d.setAttribute("aria-current", k === cur ? "true" : "false"); });
+    modeStart = performance.now() / 1000;
+    pop = 0;
+  }
+  document.getElementById("prevBtn").onclick = function () { go(cur - 1); };
+  document.getElementById("nextBtn").onclick = function () { go(cur + 1); };
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+    else if (e.key === "r" || e.key === "R") toggleRubric();
+    else if (e.key === "t" || e.key === "T") toggleTimer();
+  });
+  var tx = null;
+  document.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener("touchend", function (e) {
+    if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  var rb = document.getElementById("rubricBtn");
+  function toggleRubric() { var on = document.body.classList.toggle("show-rubric"); rb.setAttribute("aria-pressed", on); }
+  rb.onclick = toggleRubric;
+
+  var tEl = document.getElementById("timer"), tStart = 0, tId = null;
+  function fmt(s) { return Math.floor(s / 60) + ":" + ("0" + Math.floor(s % 60)).slice(-2); }
+  function toggleTimer() {
+    if (tId) { clearInterval(tId); tId = null; tEl.textContent = "5:00"; tEl.classList.remove("over"); return; }
+    tStart = Date.now();
+    tId = setInterval(function () {
+      var el = (Date.now() - tStart) / 1000; tEl.textContent = fmt(el) + " / 5:00";
+      tEl.classList.toggle("over", el >= 270);
+    }, 250);
+    tEl.textContent = "0:00 / 5:00";
+  }
+  tEl.onclick = toggleTimer;
+
+  /* ---------- 3D scene: the IEEE 14-bus grid ---------- */
+  var EDGES = [[1,2],[1,5],[2,3],[2,4],[2,5],[3,4],[4,5],[4,7],[4,9],[5,6],[6,11],[6,12],[6,13],[7,8],[7,9],[9,10],[9,14],[10,11],[12,13],[13,14]];
+  var N = 14, BEST = [2, 6, 7, 9];
+  var nbr = {}; for (var b = 1; b <= N; b++) nbr[b] = [b];
+  EDGES.forEach(function (e) { nbr[e[0]].push(e[1]); nbr[e[1]].push(e[0]); });
+
+  var canvas = document.getElementById("gl");
+  if (!window.THREE) { document.getElementById("caption").textContent = "3D view unavailable (library blocked)."; return go(0); }
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x08131c, 0.045);
+  var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0.6, 10);
+  scene.add(new THREE.AmbientLight(0x88a4bb, 0.9));
+  var key = new THREE.PointLight(0xffffff, 1.4, 60); key.position.set(6, 8, 8); scene.add(key);
+  var rim = new THREE.PointLight(0x35d0bd, 1.0, 60); rim.position.set(-8, -4, -2); scene.add(rim);
+
+  // deterministic force layout so the grid looks the same every load
+  var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647 - 0.5; }
+  var P = []; for (var i = 0; i < N; i++) P.push(new THREE.Vector3(rnd() * 3, rnd() * 3, rnd() * 3));
+  for (var it = 0; it < 500; it++) {
+    var F = P.map(function () { return new THREE.Vector3(); });
+    for (var a = 0; a < N; a++) for (var c = a + 1; c < N; c++) {
+      var d = P[a].clone().sub(P[c]); var l = Math.max(d.length(), 0.15);
+      var f = d.normalize().multiplyScalar(0.6 / (l * l)); F[a].add(f); F[c].sub(f);
+    }
+    EDGES.forEach(function (e) {
+      var a = e[0] - 1, c = e[1] - 1, d = P[c].clone().sub(P[a]), l = d.length();
+      var f = d.normalize().multiplyScalar((l - 1.2) * 0.08); F[a].add(f); F[c].sub(f);
+    });
+    for (var k = 0; k < N; k++) P[k].add(F[k].sub(P[k].clone().multiplyScalar(0.02)).multiplyScalar(0.5));
+  }
+  var maxR = 0; P.forEach(function (p) { maxR = Math.max(maxR, p.length()); });
+  P.forEach(function (p) { p.multiplyScalar(2.5 / maxR); });
+
+  var grid = new THREE.Group(); scene.add(grid);
+  var nodes = [], halos = [];
+  var sphereG = new THREE.SphereGeometry(0.24, 28, 20), haloG = new THREE.SphereGeometry(0.5, 20, 14);
+  for (var n = 0; n < N; n++) {
+    var m = new THREE.MeshStandardMaterial({ color: 0x5d7c9a, emissive: 0x5d7c9a, emissiveIntensity: 0.5, roughness: 0.35, metalness: 0.2 });
+    var mesh = new THREE.Mesh(sphereG, m); mesh.position.copy(P[n]); grid.add(mesh); nodes.push(mesh);
+    var h = new THREE.Mesh(haloG, new THREE.MeshBasicMaterial({ color: 0xffb02e, transparent: true, opacity: 0, depthWrite: false }));
+    h.position.copy(P[n]); grid.add(h); halos.push(h);
+  }
+  var lineGeo = new THREE.BufferGeometry();
+  var lp = new Float32Array(EDGES.length * 6), lc = new Float32Array(EDGES.length * 6);
+  EDGES.forEach(function (e, i) {
+    var a = P[e[0] - 1], b = P[e[1] - 1];
+    lp.set([a.x, a.y, a.z, b.x, b.y, b.z], i * 6);
+  });
+  lineGeo.setAttribute("position", new THREE.BufferAttribute(lp, 3));
+  lineGeo.setAttribute("color", new THREE.BufferAttribute(lc, 3));
+  grid.add(new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.95 })));
+
+  // faint particle dust for depth
+  var dustG = new THREE.BufferGeometry(), dp = new Float32Array(240 * 3);
+  for (var q = 0; q < 240; q++) { dp[q * 3] = rnd() * 28; dp[q * 3 + 1] = rnd() * 16; dp[q * 3 + 2] = rnd() * 24 - 4; }
+  dustG.setAttribute("position", new THREE.BufferAttribute(dp, 3));
+  var dust = new THREE.Points(dustG, new THREE.PointsMaterial({ color: 0x6f93ad, size: 0.05, transparent: true, opacity: 0.55 }));
+  scene.add(dust);
+
+  // 3D bar chart: share of runs that hit the best placement
+  var bars = new THREE.Group(); scene.add(bars); bars.scale.set(0.001, 0.001, 0.001);
+  var BAR = [
+    { v: 1.6, name: "Random guess", col: 0x7b8fa0 },
+    { v: 5.0, name: "Rigetti chip", col: 0xffb02e },
+    { v: 13.5, name: "IonQ Forte chip", col: 0xff8a3d },
+    { v: 21.1, name: "Ideal simulator", col: 0x35d0bd }
+  ];
+  function label(text, sub) {
+    var cv = document.createElement("canvas"); cv.width = 512; cv.height = 192;
+    var g = cv.getContext("2d"); g.textAlign = "center";
+    g.fillStyle = "#e8f1f6"; g.font = "700 76px 'Familjen Grotesk', Arial, sans-serif"; g.fillText(text, 256, 84);
+    g.fillStyle = "#98aebe"; g.font = "500 40px 'IBM Plex Mono', monospace"; g.fillText(sub, 256, 150);
+    var tex = new THREE.CanvasTexture(cv);
+    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
+    sp.scale.set(2.2, 0.82, 1); return sp;
+  }
+  var barMeshes = BAR.map(function (d, i) {
+    var h = d.v * 0.14, geo = new THREE.BoxGeometry(1, 1, 1); geo.translate(0, 0.5, 0);
+    var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: d.col, emissive: d.col, emissiveIntensity: 0.3, roughness: 0.3, metalness: 0.2 }));
+    mesh.position.set((i - 1.5) * 1.9, -1.5, 0); mesh.scale.set(1.0, 0.01, 1.0); mesh.userData.h = h; bars.add(mesh);
+    var top = label(d.v + "%", d.name); top.position.set((i - 1.5) * 1.9, -1.5 + h + 0.55, 0); top.userData.baseY = -1.5 + h + 0.55; bars.add(top); mesh.userData.top = top; top.material.opacity = 0;
+    return mesh;
+  });
+  var floor = new THREE.GridHelper(7, 14, 0x35d0bd, 0x24445a); floor.position.y = -1.5; floor.material.transparent = true; floor.material.opacity = 0.4; bars.add(floor);
+
+  var C = { base: new THREE.Color(0x5d7c9a), seen: new THREE.Color(0x35d0bd), sensor: new THREE.Color(0xffb02e), lost: new THREE.Color(0xff6161), dark: new THREE.Color(0x24384a), edge: new THREE.Color(0x2c4156), cov: new THREE.Color(0xffd27a) };
+  var tmp = new THREE.Color(), pop = 0;
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function covered(act) { var s = {}; act.forEach(function (b) { nbr[b].forEach(function (x) { s[x] = true; }); }); return s; }
+  function hash(a, b) { var x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x); }
+
+  var capEl = document.getElementById("caption");
+  var lastCap = "";
+  function caption(t) { if (t !== lastCap) { capEl.textContent = t; lastCap = t; } }
+
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize); resize();
+
+  var clock = new THREE.Clock(), gx = 0;
+  function frame() {
+    requestAnimationFrame(frame);
+    var t = clock.getElapsedTime(), now = performance.now() / 1000, mt = now - modeStart;
+    var mode = slides[cur].dataset.mode, wide = camera.aspect > 1.15;
+    var targetX = wide ? 3.1 : 0, targetY = wide ? 0 : 2.4;
+    if (mode === "bars") { targetX = wide ? 3.3 : 0; }
+    gx += (targetX - gx) * 0.06;
+    grid.position.x = gx; grid.position.y += (targetY - grid.position.y) * 0.06;
+    bars.position.x = gx; bars.position.y = grid.position.y - (mode === "bars" ? 0 : 0);
+    grid.rotation.y = reduce ? 0.6 : t * 0.22; grid.rotation.x = Math.sin(t * 0.3) * 0.12;
+    bars.rotation.y = reduce ? -0.35 : Math.sin(t * 0.4) * 0.35 - 0.2;
+    dust.rotation.y = t * 0.01;
+    pop += (1 - pop) * 0.08;
+
+    var active = [], failed = null, flicker = false, phase = "";
+    if (mode === "fail") {
+      var c = mt % 9;
+      if (c < 3) { active = BEST; phase = "4 sensors: every substation seen"; }
+      else if (c < 6) { active = BEST.filter(function (x) { return x !== 6; }); failed = 6; phase = "One sensor fails: 4 substations go dark"; }
+      else { active = BEST; phase = "Sensor restored"; }
+    } else if (mode === "ok") { active = BEST; phase = mode === "ok" ? "Best 4-sensor placement" : ""; }
+    else if (mode === "search") {
+      var s = mt % 8;
+      if (s < 4.5) {
+        flicker = true; var tick = Math.floor(s * 5);
+        for (var b = 1; b <= N; b++) if (hash(b, tick + Math.floor(mt / 8) * 50) > 0.62) active.push(b);
+        phase = "Quantum search: trying many placements";
+      } else { active = BEST; phase = "Best placement found: 4 sensors"; }
+    } else if (mode === "bars") phase = "Runs that found the best placement (6-substation test)";
+    else phase = "";
+    caption(phase);
+
+    var seen = flicker ? {} : covered(active);
+    var showGrid = mode !== "bars";
+    var gs = showGrid ? (0.35 + 0.65 * pop) : 0.001;
+    var cs = grid.scale.x + (gs - grid.scale.x) * 0.1; grid.scale.set(cs, cs, cs); grid.visible = cs > 0.02;
+    var bs = mode === "bars" ? 1 : 0.001; var cb = bars.scale.x + (bs - bars.scale.x) * 0.08; bars.scale.set(cb, cb, cb); bars.visible = cb > 0.02;
+
+    if (grid.visible) {
+      for (var n = 0; n < N; n++) {
+        var bus = n + 1, isS = active.indexOf(bus) >= 0, target;
+        if (mode === "idle") { var w = Math.max(0, Math.sin(t * 1.6 - n * 0.9)); target = tmp.copy(C.base).lerp(C.seen, w); }
+        else if (flicker) target = isS ? C.sensor : C.base;
+        else if (bus === failed) target = C.lost;
+        else if (isS) target = C.sensor;
+        else if (seen[bus]) target = C.seen;
+        else target = active.length ? C.lost : C.base;
+        var m = nodes[n].material; m.color.lerp(target, 0.16); m.emissive.copy(m.color);
+        m.emissiveIntensity = isS ? 0.85 : (target === C.lost ? 0.9 : 0.45);
+        var sc = 1 + (isS ? 0.2 * Math.sin(t * 3 + n) : 0) + (target === C.lost ? 0.15 * Math.sin(t * 6) : 0);
+        nodes[n].scale.setScalar(sc);
+        var hm = halos[n].material; hm.opacity += ((isS ? 0.2 + 0.08 * Math.sin(t * 3 + n) : 0) - hm.opacity) * 0.15;
+        halos[n].scale.setScalar(isS ? 1 + 0.2 * Math.sin(t * 3 + n) : 0.6);
+      }
+      var ca = lineGeo.attributes.color.array;
+      EDGES.forEach(function (e, i) {
+        var live = !flicker && active.length && (active.indexOf(e[0]) >= 0 || active.indexOf(e[1]) >= 0);
+        var c0 = live ? C.cov : C.edge, o = i * 6, cur0 = ca[o], k0 = ca[o + 1], k1 = ca[o + 2];
+        var nr = cur0 + (c0.r - cur0) * 0.15, ng = k0 + (c0.g - k0) * 0.15, nb = k1 + (c0.b - k1) * 0.15;
+        ca[o] = ca[o + 3] = nr; ca[o + 1] = ca[o + 4] = ng; ca[o + 2] = ca[o + 5] = nb;
+      });
+      lineGeo.attributes.color.needsUpdate = true;
+    }
+    if (bars.visible) {
+      barMeshes.forEach(function (m, i) {
+        var gt = Math.min(1, Math.max(0, (mt - 0.5 - i * 0.35) / 1.1)); gt = 1 - Math.pow(1 - gt, 3);
+        m.scale.y = Math.max(0.01, m.userData.h * gt) / 1; m.scale.x = m.scale.z = 1.0;
+        m.userData.top.position.y = -1.5 + m.scale.y + 0.55; m.userData.top.material.opacity = gt;
+      });
+    }
+    camera.position.x = Math.sin(t * 0.15) * 0.4; camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  }
+  go(0);
+  frame();
+})();
+</script>
