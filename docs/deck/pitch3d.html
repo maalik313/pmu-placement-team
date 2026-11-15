@@ -36,7 +36,8 @@ body { background: radial-gradient(1200px 700px at 78% 40%, #ffffff 0%, var(--bg
 }
 .slide.prev { transform: translate3d(-2.5%, 0, -180px) scale(.985); }
 .slide.next { transform: translate3d(2.5%, 0, -180px) scale(.985); }
-.slide.on { transform: none; opacity: 1; filter: none; pointer-events: auto; transition-delay: .12s; }
+.slide.on { transform: none; opacity: 1; filter: none; pointer-events: none; transition-delay: .12s; }
+.slide.on .panel, .slide.on .card, .slide.on .ctools { pointer-events: auto; }
 .panel {
   width: min(600px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow);
   padding: clamp(20px, 3vw, 40px); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -90,41 +91,19 @@ body.show-rubric .rubric { display: block; }
 .mark { position: fixed; top: max(18px, calc(env(safe-area-inset-top, 0px) + 12px)); left: max(20px, 3vw); height: 52px; z-index: 6; opacity: 0; transition: opacity .8s ease; pointer-events: none; }
 body:not([data-slide="0"]) .mark { opacity: .96; }
 
-/* interactive city */
-.slide.city { grid-template-rows: auto 1fr; gap: 14px; align-content: start; padding-block: max(84px, calc(env(safe-area-inset-top, 0px) + 60px)) 84px; }
-.cityhead { display: grid; gap: 6px; }
-.cityhead h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
-.citycard { width: min(100%, calc(min(60vh, 580px) * 1.714 + 30px)); justify-self: center; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 14px; display: grid; gap: 10px; min-height: 0; transform-origin: 50% 100%;
-  transform: rotateX(62deg) translateY(40px) scale(.9); opacity: 0; transition: transform 1.4s cubic-bezier(.2, .8, .2, 1) .4s, opacity 1s ease .4s; }
-.slide.city.on .citycard { transform: none; opacity: 1; }
-.ctools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.ctools button, .city-btn { border: 1px solid #cbd7e6; background: #fff; color: #2a4263; border-radius: 8px; padding: 7px 11px; font: 600 .82rem var(--body); cursor: pointer; }
+/* interactive 3D city */
+.slide.city { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 14px; align-content: start; align-items: start; padding-block: max(84px, calc(env(safe-area-inset-top, 0px) + 60px)) 84px; }
+.cityhead { padding: 18px 22px; gap: 6px; }
+.cityhead h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); }
+.ctools { justify-self: end; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ctools button { border: 1px solid #c8d4e6; background: rgba(255, 255, 255, .92); color: #2a4263; border-radius: 9px; padding: 8px 12px; font: 600 .82rem var(--body); cursor: pointer; box-shadow: 0 6px 18px rgba(18, 63, 181, .08); }
 .ctools button.active { background: #e6eefc; color: var(--brand); border-color: #9db8ee; }
-.cspacer { flex: 1; }
-.city { --teal: #168f98; --gold: #e7a52e; }
-.city svg { width: 100%; height: min(60vh, 580px); display: block; border-radius: 10px; background: #f3f7f4; border: 1px solid #e0e9e5; }
-.city .block { fill: #e8efeb; stroke: #e0e9e4; } .city .park { fill: #dceee1; stroke: #cde2d3; }
-.city .road { stroke: #fff; stroke-width: 15; fill: none; } .city .road.v { stroke-width: 10; }
-.city .link { stroke: var(--teal); stroke-width: 4; stroke-linecap: round; opacity: .86; transition: .25s; filter: drop-shadow(0 1px 1px #fff); }
-.city .link.hit { stroke: #08717a; stroke-width: 7; opacity: 1; } .city .link.dim { opacity: .1; }
-.city .hub { cursor: pointer; transition: opacity .25s; } .city .hub.dim { opacity: .18; }
-.city .focus { fill: none; stroke: transparent; stroke-width: 3; }
-.city .pmu-site .focus { stroke: #e7a52e; stroke-width: 4; filter: drop-shadow(0 0 5px #e7a52e88); }
-.city .hub.selected .focus { stroke: #087e86; }
-.city .halo { fill: #fff; stroke: #b8ccc5; stroke-width: 1.5; filter: drop-shadow(0 2px 2px #59766c22); }
-.city .hub.selected .halo { fill: #e0f4f0; stroke: #07858c; stroke-width: 2.5; }
-.city .facility { fill: #1d5965; stroke: #164653; stroke-width: 1.2; stroke-linejoin: round; } .city .bldg.data { fill: #286b83; }
-.city .roof { fill: none; stroke: #164653; stroke-width: 2.5; stroke-linejoin: round; } .city .win { fill: #d9edf0; stroke: none; }
-.city .server { fill: none; stroke: #d9edf0; stroke-width: 1.5; } .city .led { fill: #e7b14d; stroke: none; }
-.city .tower { fill: none; stroke: #1d5965; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-.city .label { font-size: 12px; font-weight: 850; fill: #183b4b; paint-order: stroke; stroke: #f8fbf9; stroke-width: 4px; stroke-linejoin: round; }
-.city .pmu-halo { fill: #f7bd4526; stroke: #e7a52e; stroke-width: 2.5; filter: drop-shadow(0 0 5px #e7a52e88); }
-.city .pmu-tag { fill: #f3b638; stroke: #fff; stroke-width: 1.8; filter: drop-shadow(0 2px 2px #8d641f55); }
-.city .pmu-tag-text { font-size: 10px; font-weight: 900; letter-spacing: .08em; fill: #3d2a08; text-anchor: middle; }
-.city .pmu-badge { fill: #173f50; stroke: #fff; stroke-width: 1.5; } .city .pmu-wave { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.city.labels-off .label { display: none; } .city.links-off .link { opacity: 0; } .city.pmus-off .pmu-visual { display: none; } .city.pmus-off .pmu-site .focus { stroke: transparent; filter: none; }
-.cinspect { font-size: .92rem; color: var(--muted); min-height: 2.6em; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.slide.city.on .ctools { animation: fadein .9s .9s both; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.cinspect { position: absolute; left: 50%; bottom: 78px; transform: translateX(-50%); width: max-content; max-width: 92vw; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 20px; font-size: .95rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); opacity: 0; transition: opacity .8s ease .9s; }
+.slide.city.on .cinspect { opacity: 1; }
 .cinspect strong { color: var(--fg); font-size: 1.05rem; } .cinspect .pmuon { color: var(--sensor-ink); font-weight: 600; }
+.slide.city .rubric { grid-column: 1 / -1; }
 
 #hud { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   padding: 14px max(16px, env(safe-area-inset-right, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: linear-gradient(rgba(243,246,251,0), rgba(243,246,251,.95)); z-index: 5; }
@@ -144,7 +123,7 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
   .slide { padding-block: 84px 90px; align-content: start; }
   .pts li { grid-template-columns: 1fr; gap: 6px; }
 }
-@media (prefers-reduced-motion: reduce) { .slide, .citycard { transition: opacity .2s; transform: none !important; filter: none !important; } .slide.on .panel > *, .slide.on .card, .logo3d::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .slide { transition: opacity .2s; transform: none !important; filter: none !important; } .slide.on .panel > *, .slide.on .card, .logo3d::after { animation: none; } }
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -176,96 +155,14 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
   </section>
 
   <section class="slide city" data-mode="flat">
-    <div class="cityhead">
+    <div class="cityhead panel">
       <p class="eyebrow">Zoom out</p>
       <h2>It is not just lines. It is a city.</h2>
+      <p class="lede">Click a building. Toggle the sensors.</p>
     </div>
-    <div class="citycard city" id="city">
-      <div class="ctools"><button id="cPmu" class="active" aria-pressed="true">PMU sensors: shown</button><button id="cLabels" class="active" aria-pressed="true">Labels on</button><button id="cLinks" class="active" aria-pressed="true">Grid links on</button><span class="cspacer"></span><button id="cReset">Reset</button></div>
-      <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1200 700" role="img" aria-label="Interactive city-style IEEE 14-bus grid with varied facility icons"><rect width="1200" height="700" fill="#f3f7f4"/><rect class="block" x="65" y="80" width="54" height="32" rx="5"/><rect class="block" x="355" y="80" width="70" height="32" rx="5"/><rect class="block" x="645" y="80" width="62" height="32" rx="5"/><rect class="block" x="935" y="80" width="54" height="32" rx="5"/><rect class="block" x="210" y="175" width="62" height="40" rx="5"/><rect class="block" x="500" y="175" width="54" height="40" rx="5"/><rect class="block" x="790" y="175" width="70" height="40" rx="5"/><rect class="block" x="1080" y="175" width="62" height="40" rx="5"/><rect class="block" x="65" y="270" width="54" height="32" rx="5"/><rect class="block" x="355" y="270" width="70" height="32" rx="5"/><rect class="block" x="645" y="270" width="62" height="32" rx="5"/><rect class="block" x="935" y="270" width="54" height="32" rx="5"/><rect class="block" x="210" y="365" width="62" height="40" rx="5"/><rect class="block" x="500" y="365" width="54" height="40" rx="5"/><rect class="block" x="790" y="365" width="70" height="40" rx="5"/><rect class="block" x="1080" y="365" width="62" height="40" rx="5"/><rect class="block" x="65" y="460" width="54" height="32" rx="5"/><rect class="block" x="355" y="460" width="70" height="32" rx="5"/><rect class="block" x="645" y="460" width="62" height="32" rx="5"/><rect class="block" x="935" y="460" width="54" height="32" rx="5"/><rect class="block" x="210" y="555" width="62" height="40" rx="5"/><rect class="block" x="500" y="555" width="54" height="40" rx="5"/><rect class="block" x="790" y="555" width="70" height="40" rx="5"/><rect class="block" x="1080" y="555" width="62" height="40" rx="5"/><rect class="park" x="835" y="75" width="100" height="48" rx="8"/><rect class="park" x="275" y="500" width="88" height="45" rx="8"/><rect class="park" x="1010" y="250" width="110" height="48" rx="8"/><path class="road" d="M25 65H1175"/><path class="road" d="M25 160H1175"/><path class="road" d="M25 255H1175"/><path class="road" d="M25 350H1175"/><path class="road" d="M25 445H1175"/><path class="road" d="M25 540H1175"/><path class="road" d="M25 635H1175"/><path class="road v" d="M70 25V675"/><path class="road v" d="M215 25V675"/><path class="road v" d="M360 25V675"/><path class="road v" d="M505 25V675"/><path class="road v" d="M650 25V675"/><path class="road v" d="M795 25V675"/><path class="road v" d="M940 25V675"/><path class="road v" d="M1085 25V675"/><g><line class="link" data-a="1" data-b="2" x1="145" y1="470" x2="220" y2="590"/><line class="link" data-a="1" data-b="5" x1="145" y1="470" x2="455" y2="450"/><line class="link" data-a="2" data-b="3" x1="220" y1="590" x2="690" y2="605"/><line class="link" data-a="2" data-b="4" x1="220" y1="590" x2="750" y2="490"/><line class="link" data-a="2" data-b="5" x1="220" y1="590" x2="455" y2="450"/><line class="link" data-a="3" data-b="4" x1="690" y1="605" x2="750" y2="490"/><line class="link" data-a="4" data-b="5" x1="750" y1="490" x2="455" y2="450"/><line class="link" data-a="4" data-b="7" x1="750" y1="490" x2="980" y2="445"/><line class="link" data-a="4" data-b="9" x1="750" y1="490" x2="750" y2="340"/><line class="link" data-a="5" data-b="6" x1="455" y1="450" x2="455" y2="350"/><line class="link" data-a="6" data-b="12" x1="455" y1="350" x2="125" y2="190"/><line class="link" data-a="6" data-b="13" x1="455" y1="350" x2="390" y2="95"/><line class="link" data-a="6" data-b="11" x1="455" y1="350" x2="520" y2="220"/><line class="link" data-a="7" data-b="8" x1="980" y1="445" x2="1100" y2="445"/><line class="link" data-a="7" data-b="9" x1="980" y1="445" x2="750" y2="340"/><line class="link" data-a="9" data-b="10" x1="750" y1="340" x2="660" y2="265"/><line class="link" data-a="10" data-b="11" x1="660" y1="265" x2="520" y2="220"/><line class="link" data-a="9" data-b="14" x1="750" y1="340" x2="660" y2="135"/><line class="link" data-a="12" data-b="13" x1="125" y1="190" x2="390" y2="95"/><line class="link" data-a="13" data-b="14" x1="390" y1="95" x2="660" y2="135"/></g><g><g class="hub " data-id="1" data-type="urban utility" tabindex="0" role="button" aria-label="Select Bus 1, urban utility" transform="translate(145 470)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-11" width="30" height="23" rx="3"/><path class="win" d="M-9 -5h5v5h-5z M4 -5h5v5H4z M-3 4h6v8h-6z"/><path class="roof" d="M-18 -11L0 -21L18 -11"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 1</text>
-    
-    </g><g class="hub pmu-site" data-id="2" data-type="transmission tower" tabindex="0" role="button" aria-label="Select Bus 2, transmission tower" transform="translate(220 590)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><path class="tower" d="M0 -24L-15 19M0 -24L15 19M-11 7H11M-8 -3H8M-12 -12H12M-19 -12H19M-7 -12L7 7M7 -12L-7 7"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 2</text>
-    <g class="pmu-visual" aria-label="PMU installed">
-      <circle class="pmu-halo" r="34"/>
-      <rect class="pmu-tag" x="-22" y="-61" width="44" height="19" rx="6"/>
-      <text class="pmu-tag-text" x="0" y="-48">PMU</text>
-      <circle class="pmu-badge" cx="24" cy="-25" r="10"/>
-      <path class="pmu-wave" d="M17 -25h3l2 -4l3 8l2 -4h4"/>
-    </g>
-    </g><g class="hub " data-id="3" data-type="utility campus" tabindex="0" role="button" aria-label="Select Bus 3, utility campus" transform="translate(690 605)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-18" y="-12" width="36" height="24" rx="3"/><path class="roof" d="M-21 -12H21M-13 -18V-12M0 -18V-12M13 -18V-12"/><path class="win" d="M-12 -5h5v5h-5z M-2 -5h5v5h-5z M8 -5h5v5H8z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 3</text>
-    
-    </g><g class="hub " data-id="4" data-type="industrial facility" tabindex="0" role="button" aria-label="Select Bus 4, industrial facility" transform="translate(750 490)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-18" y="-8" width="36" height="20" rx="2"/><path class="roof" d="M-18 -8L-8 -17L0 -8L9 -17L18 -8M-12 -8V-23H-6V-8"/><path class="win" d="M-11 0h5v5h-5z M1 0h5v5H1z M10 0h5v5h-5z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 4</text>
-    
-    </g><g class="hub " data-id="5" data-type="urban utility" tabindex="0" role="button" aria-label="Select Bus 5, urban utility" transform="translate(455 450)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-11" width="30" height="23" rx="3"/><path class="win" d="M-9 -5h5v5h-5z M4 -5h5v5H4z M-3 4h6v8h-6z"/><path class="roof" d="M-18 -11L0 -21L18 -11"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 5</text>
-    
-    </g><g class="hub pmu-site" data-id="6" data-type="data center" tabindex="0" role="button" aria-label="Select Bus 6, data center" transform="translate(455 350)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg data" x="-17" y="-15" width="34" height="29" rx="3"/><path class="server" d="M-11 -9H11V-3H-11z M-11 0H11V6H-11z"/><circle class="led" cx="7" cy="-6" r="1.5"/><circle class="led" cx="7" cy="3" r="1.5"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 6</text>
-    <g class="pmu-visual" aria-label="PMU installed">
-      <circle class="pmu-halo" r="34"/>
-      <rect class="pmu-tag" x="-22" y="-61" width="44" height="19" rx="6"/>
-      <text class="pmu-tag-text" x="0" y="-48">PMU</text>
-      <circle class="pmu-badge" cx="24" cy="-25" r="10"/>
-      <path class="pmu-wave" d="M17 -25h3l2 -4l3 8l2 -4h4"/>
-    </g>
-    </g><g class="hub pmu-site" data-id="7" data-type="industrial facility" tabindex="0" role="button" aria-label="Select Bus 7, industrial facility" transform="translate(980 445)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-18" y="-8" width="36" height="20" rx="2"/><path class="roof" d="M-18 -8L-8 -17L0 -8L9 -17L18 -8M-12 -8V-23H-6V-8"/><path class="win" d="M-11 0h5v5h-5z M1 0h5v5H1z M10 0h5v5h-5z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 7</text>
-    <g class="pmu-visual" aria-label="PMU installed">
-      <circle class="pmu-halo" r="34"/>
-      <rect class="pmu-tag" x="-22" y="-61" width="44" height="19" rx="6"/>
-      <text class="pmu-tag-text" x="0" y="-48">PMU</text>
-      <circle class="pmu-badge" cx="24" cy="-25" r="10"/>
-      <path class="pmu-wave" d="M17 -25h3l2 -4l3 8l2 -4h4"/>
-    </g>
-    </g><g class="hub " data-id="8" data-type="urban utility" tabindex="0" role="button" aria-label="Select Bus 8, urban utility" transform="translate(1100 445)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-11" width="30" height="23" rx="3"/><path class="win" d="M-9 -5h5v5h-5z M4 -5h5v5H4z M-3 4h6v8h-6z"/><path class="roof" d="M-18 -11L0 -21L18 -11"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 8</text>
-    
-    </g><g class="hub pmu-site" data-id="9" data-type="data center" tabindex="0" role="button" aria-label="Select Bus 9, data center" transform="translate(750 340)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg data" x="-17" y="-15" width="34" height="29" rx="3"/><path class="server" d="M-11 -9H11V-3H-11z M-11 0H11V6H-11z"/><circle class="led" cx="7" cy="-6" r="1.5"/><circle class="led" cx="7" cy="3" r="1.5"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 9</text>
-    <g class="pmu-visual" aria-label="PMU installed">
-      <circle class="pmu-halo" r="34"/>
-      <rect class="pmu-tag" x="-22" y="-61" width="44" height="19" rx="6"/>
-      <text class="pmu-tag-text" x="0" y="-48">PMU</text>
-      <circle class="pmu-badge" cx="24" cy="-25" r="10"/>
-      <path class="pmu-wave" d="M17 -25h3l2 -4l3 8l2 -4h4"/>
-    </g>
-    </g><g class="hub " data-id="10" data-type="commercial campus" tabindex="0" role="button" aria-label="Select Bus 10, commercial campus" transform="translate(660 265)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-17" width="30" height="30" rx="3"/><path class="win" d="M-9 -11h5v5h-5z M4 -11h5v5H4z M-9 -2h5v5h-5z M4 -2h5v5H4z M-3 5h6v8h-6z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 10</text>
-    
-    </g><g class="hub " data-id="11" data-type="industrial facility" tabindex="0" role="button" aria-label="Select Bus 11, industrial facility" transform="translate(520 220)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-18" y="-8" width="36" height="20" rx="2"/><path class="roof" d="M-18 -8L-8 -17L0 -8L9 -17L18 -8M-12 -8V-23H-6V-8"/><path class="win" d="M-11 0h5v5h-5z M1 0h5v5H1z M10 0h5v5h-5z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 11</text>
-    
-    </g><g class="hub " data-id="12" data-type="urban utility" tabindex="0" role="button" aria-label="Select Bus 12, urban utility" transform="translate(125 190)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-11" width="30" height="23" rx="3"/><path class="win" d="M-9 -5h5v5h-5z M4 -5h5v5H4z M-3 4h6v8h-6z"/><path class="roof" d="M-18 -11L0 -21L18 -11"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 12</text>
-    
-    </g><g class="hub " data-id="13" data-type="transmission tower" tabindex="0" role="button" aria-label="Select Bus 13, transmission tower" transform="translate(390 95)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><path class="tower" d="M0 -24L-15 19M0 -24L15 19M-11 7H11M-8 -3H8M-12 -12H12M-19 -12H19M-7 -12L7 7M7 -12L-7 7"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 13</text>
-    
-    </g><g class="hub " data-id="14" data-type="commercial campus" tabindex="0" role="button" aria-label="Select Bus 14, commercial campus" transform="translate(660 135)">
-    <circle class="focus" r="33"/><circle class="halo" r="25"/><g class="facility"><rect class="bldg" x="-15" y="-17" width="30" height="30" rx="3"/><path class="win" d="M-9 -11h5v5h-5z M4 -11h5v5H4z M-9 -2h5v5h-5z M4 -2h5v5H4z M-3 5h6v8h-6z"/></g>
-    <text class="label" x="0" y="43" text-anchor="middle">BUS 14</text>
-    
-    </g></g></svg>
-      <div class="cinspect" id="cInspect"><strong>Click any building</strong><span>to see what it connects to and whether it has a sensor.</span></div>
-      <p class="rubric">Rubric: Problem significance · Customer understanding · Solution demonstration</p>
-    </div>
+    <div class="ctools" id="city"><button id="cPmu" class="active" aria-pressed="true">PMU sensors: shown</button><button id="cLabels" class="active" aria-pressed="true">Labels on</button><button id="cLinks" class="active" aria-pressed="true">Grid links on</button><button id="cReset">Reset</button></div>
+    <div class="cinspect" id="cInspect"><strong>Click any building</strong><span>to see what it connects to and whether it has a sensor.</span></div>
+    <p class="rubric">Rubric: Problem significance · Customer understanding · Solution demonstration</p>
   </section>
 
   <section class="slide" data-mode="ok">
@@ -396,37 +293,6 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
   }
   tEl.onclick = toggleTimer;
 
-  /* ---------- Interactive city (from the team's IEEE 14 city map) ---------- */
-  var NEI = {"1":[2,5],"2":[1,3,4,5],"3":[2,4],"4":[2,3,5,7,9],"5":[1,2,4,6],"6":[5,12,13,11],"7":[4,8,9],"8":[7],"9":[4,7,10,14],"10":[9,11],"11":[6,10],"12":[6,13],"13":[6,12,14],"14":[9,13]};
-  var TYPES = {"1":"urban utility","2":"transmission tower","3":"utility campus","4":"industrial facility","5":"urban utility","6":"data center","7":"industrial facility","8":"urban utility","9":"data center","10":"commercial campus","11":"industrial facility","12":"urban utility","13":"transmission tower","14":"commercial campus"};
-  var PMUS = [2, 6, 7, 9];
-  var city = document.getElementById("city"), selected = null;
-  var hubs = Array.prototype.slice.call(city.querySelectorAll(".hub")), links = Array.prototype.slice.call(city.querySelectorAll(".link"));
-  var insp = document.getElementById("cInspect");
-  var HINT = "<strong>Click any building</strong><span>to see what it connects to and whether it has a sensor.</span>";
-  function choose(id) {
-    selected = selected === id ? null : id;
-    var near = selected === null ? null : [selected].concat(NEI[selected]);
-    hubs.forEach(function (n) { var k = +n.dataset.id; n.classList.toggle("selected", k === selected); n.classList.toggle("dim", near !== null && near.indexOf(k) < 0); });
-    links.forEach(function (l) { var hit = selected !== null && (+l.dataset.a === selected || +l.dataset.b === selected); l.classList.toggle("hit", hit); l.classList.toggle("dim", selected !== null && !hit); });
-    if (selected === null) { insp.innerHTML = HINT; return; }
-    var has = PMUS.indexOf(selected) >= 0;
-    insp.innerHTML = "<strong>Bus " + selected + " · " + TYPES[selected] + "</strong><span class=\"" + (has ? "pmuon" : "") + "\">" + (has ? "Sensor installed" : "No sensor here") + "</span><span>Connected to " + NEI[selected].map(function (n) { return "Bus " + n; }).join(", ") + "</span>";
-  }
-  hubs.forEach(function (n) {
-    n.addEventListener("click", function () { choose(+n.dataset.id); });
-    n.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(+n.dataset.id); } });
-  });
-  function cToggle(id, cls, on, off) {
-    var b = document.getElementById(id), state = true;
-    b.onclick = function () { state = !state; city.classList.toggle(cls, !state); b.classList.toggle("active", state); b.setAttribute("aria-pressed", String(state)); b.textContent = state ? on : off; };
-  }
-  cToggle("cPmu", "pmus-off", "PMU sensors: shown", "PMU sensors: hidden"); cToggle("cLabels", "labels-off", "Labels on", "Labels off"); cToggle("cLinks", "links-off", "Grid links on", "Grid links off");
-  document.getElementById("cReset").onclick = function () {
-    if (selected !== null) choose(selected);
-    ["cPmu", "cLabels", "cLinks"].forEach(function (id) { var b = document.getElementById(id); if (!b.classList.contains("active")) b.click(); });
-  };
-
   /* ---------- Cover emblem: float, pointer tilt ---------- */
   var logo = document.getElementById("logo3d"), logoImg = document.getElementById("logoimg");
   logo.style.setProperty("--logo", "url(" + logoImg.src + ")");
@@ -515,6 +381,194 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
   });
   var floor = new THREE.GridHelper(8, 16, 0x123fb5, 0xc3d0e4); floor.position.y = -1.5; floor.material.transparent = true; floor.material.opacity = 0.55; bars.add(floor);
 
+  /* ---------- 3D city: the grid's substations become buildings ---------- */
+  var NEI = {"1":[2,5],"2":[1,3,4,5],"3":[2,4],"4":[2,3,5,7,9],"5":[1,2,4,6],"6":[5,12,13,11],"7":[4,8,9],"8":[7],"9":[4,7,10,14],"10":[9,11],"11":[6,10],"12":[6,13],"13":[6,12,14],"14":[9,13]};
+  var TYPES = {"1":"urban utility","2":"transmission tower","3":"utility campus","4":"industrial facility","5":"urban utility","6":"data center","7":"industrial facility","8":"urban utility","9":"data center","10":"commercial campus","11":"industrial facility","12":"urban utility","13":"transmission tower","14":"commercial campus"};
+  var KIND = {"1":"house","2":"tower","3":"campus","4":"factory","5":"house","6":"data","7":"factory","8":"house","9":"data","10":"office","11":"factory","12":"house","13":"tower","14":"office"};
+  var PMUS = [2, 6, 7, 9];
+  var SXY = [[145,470],[220,590],[690,605],[750,490],[455,450],[455,350],[980,445],[1100,445],[750,340],[660,265],[520,220],[125,190],[390,95],[660,135]];
+  function WX(sx) { return (sx - 600) / 100; } function WZ(sy) { return (sy - 350) / 100; }
+  var CP = SXY.map(function (p) { return new THREE.Vector3(WX(p[0]), 0, WZ(p[1])); });
+  function sm(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+  function eob(x) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+
+  var cityG = new THREE.Group(); grid.add(cityG); cityG.visible = false;
+  function gm(c) { return new THREE.MeshStandardMaterial({ color: c, roughness: 1, metalness: 0, transparent: true, opacity: 0 }); }
+  var gMat = gm(0x6d897b), rMat = gm(0xc9d6ce), bMat = gm(0x58736a), pkMat = gm(0x4d9463);
+  var BS = 1.25;
+  var ground = new THREE.Mesh(new THREE.PlaneGeometry(14.6, 9.0), gMat); ground.rotation.x = -Math.PI / 2; ground.position.y = -0.03; cityG.add(ground);
+  [65, 160, 255, 350, 445, 540, 635].forEach(function (y) { var r = new THREE.Mesh(new THREE.BoxGeometry(14.2, 0.02, 0.15), rMat); r.position.set(0, -0.015, WZ(y)); cityG.add(r); });
+  [70, 215, 360, 505, 650, 795, 940, 1085].forEach(function (x) { var r = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.02, 8.4), rMat); r.position.set(WX(x), -0.015, 0); cityG.add(r); });
+  var blocks = [];
+  function blockSet(ys, pairs, h) {
+    ys.forEach(function (y) { pairs.forEach(function (p) {
+      var geo = new THREE.BoxGeometry(p[1] / 100 * 0.95, 1, h / 100 * 0.95); geo.translate(0, 0.5, 0);
+      var m = new THREE.Mesh(geo, bMat); m.position.set(WX(p[0] + p[1] / 2), -0.02, WZ(y + h / 2)); m.scale.y = 0.001; cityG.add(m);
+      blocks.push({ m: m, h: 0.05 + 0.2 * Math.abs(Math.sin(p[0] * 0.013 + y * 0.021)), d: (blocks.length % 7) * 0.035 });
+    }); });
+  }
+  blockSet([80, 270, 460], [[65, 54], [355, 70], [645, 62], [935, 54]], 32);
+  blockSet([175, 365, 555], [[210, 62], [500, 54], [790, 70], [1080, 62]], 40);
+  [[835, 75, 100, 48], [275, 500, 88, 45], [1010, 250, 110, 48]].forEach(function (p) {
+    var m = new THREE.Mesh(new THREE.BoxGeometry(p[2] / 100, 0.03, p[3] / 100), pkMat); m.position.set(WX(p[0] + p[2] / 2), -0.01, WZ(p[1] + p[3] / 2)); cityG.add(m);
+  });
+
+  function makeBuilding(kind) {
+    var g = new THREE.Group(), mats = [];
+    function M(c, o) { var m = new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0.05, transparent: true }, o || {})); mats.push(m); return m; }
+    function box(w, h, d, mat, x, y, z) { var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); g.add(m); return m; }
+    var padM = M(0xffffff, { roughness: 0.9 });
+    var pad = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.04, 36), padM); pad.position.y = 0.02; g.add(pad);
+    var body = 0x1d5965, roof = 0x164653, base = 0.04, top = 0.6;
+    var WIN = M(0xd9edf0, { emissive: 0x9fd3dc, emissiveIntensity: 0.35 });
+    if (kind === "house") {
+      box(0.56, 0.42, 0.5, M(body), 0, base + 0.21, 0);
+      var r = new THREE.Mesh(new THREE.ConeGeometry(0.46, 0.3, 4), M(roof)); r.rotation.y = Math.PI / 4; r.position.y = base + 0.42 + 0.15; g.add(r);
+      box(0.1, 0.2, 0.02, WIN, 0, base + 0.1, 0.26); box(0.1, 0.1, 0.02, WIN, -0.17, base + 0.27, 0.26); box(0.1, 0.1, 0.02, WIN, 0.17, base + 0.27, 0.26);
+      top = 0.78;
+    } else if (kind === "campus") {
+      box(0.8, 0.34, 0.56, M(body), 0, base + 0.17, 0); box(0.84, 0.04, 0.6, M(roof), 0, base + 0.36, 0);
+      box(0.14, 0.12, 0.14, M(roof), -0.25, base + 0.44, 0); box(0.14, 0.12, 0.14, M(roof), 0, base + 0.44, 0); box(0.14, 0.12, 0.14, M(roof), 0.25, base + 0.44, 0);
+      [-0.25, 0, 0.25].forEach(function (x) { box(0.1, 0.07, 0.02, WIN, x, base + 0.2, 0.285); });
+      top = 0.56;
+    } else if (kind === "factory") {
+      box(0.7, 0.4, 0.5, M(body), 0, base + 0.2, 0);
+      [-0.22, 0, 0.22].forEach(function (x) { var p = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 3), M(roof)); p.rotation.x = Math.PI / 2; p.position.set(x, base + 0.46, 0); g.add(p); });
+      var ch = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.075, 0.62, 14), M(roof)); ch.position.set(-0.28, base + 0.62, -0.14); g.add(ch);
+      var ch2 = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 0.46, 14), M(roof)); ch2.position.set(-0.14, base + 0.54, -0.18); g.add(ch2);
+      [-0.2, 0, 0.2].forEach(function (x) { box(0.09, 0.07, 0.02, WIN, x, base + 0.16, 0.255); });
+      top = 0.98;
+    } else if (kind === "data") {
+      box(0.62, 0.7, 0.56, M(0x286b83), 0, base + 0.35, 0); box(0.66, 0.04, 0.6, M(roof), 0, base + 0.72, 0);
+      var LED = M(0xe7b14d, { emissive: 0xe7b14d, emissiveIntensity: 0.9 });
+      [0.18, 0.34, 0.5].forEach(function (y) { box(0.46, 0.03, 0.012, WIN, 0, base + y, 0.286); box(0.04, 0.03, 0.014, LED, 0.2, base + y, 0.287); });
+      top = 0.82;
+    } else if (kind === "office") {
+      box(0.58, 1.1, 0.5, M(body), 0, base + 0.55, 0);
+      [0.22, 0.42, 0.62, 0.82, 1.0].forEach(function (y) { box(0.6, 0.07, 0.52, WIN, 0, base + y, 0); });
+      var an = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.3, 6), M(roof)); an.position.set(0, base + 1.25, 0); g.add(an);
+      top = 1.42;
+    } else {
+      var tw = new THREE.Mesh(new THREE.ConeGeometry(0.36, 1.55, 4, 4, true), new THREE.MeshBasicMaterial({ color: 0x1d5965, wireframe: true, transparent: true })); mats.push(tw.material);
+      tw.rotation.y = Math.PI / 4; tw.position.y = base + 0.775; g.add(tw);
+      box(0.95, 0.04, 0.04, M(body), 0, base + 1.22, 0); box(0.7, 0.04, 0.04, M(body), 0, base + 0.95, 0); box(0.04, 0.04, 0.5, M(body), 0, base + 1.22, 0);
+      top = 1.62;
+    }
+    return { g: g, mats: mats, top: top, padM: padM };
+  }
+  function tex(w, h, fn) { var cv = document.createElement("canvas"); cv.width = w; cv.height = h; fn(cv.getContext("2d")); return new THREE.CanvasTexture(cv); }
+  function sprite(t, sx, sy) { var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthWrite: false, depthTest: false, fog: false })); sp.scale.set(sx, sy, 1); sp.renderOrder = 6; return sp; }
+  function rrect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+
+  var B = [], pickables = [], PMUTAG = tex(160, 64, function (g) { g.fillStyle = "#f3b638"; rrect(g, 6, 6, 148, 52, 16); g.fill(); g.lineWidth = 4; g.strokeStyle = "#ffffff"; g.stroke(); g.fillStyle = "#3d2a08"; g.font = "800 30px 'IBM Plex Sans', Arial, sans-serif"; g.textAlign = "center"; g.fillText("PMU", 80, 44); });
+  for (var bi = 0; bi < N; bi++) {
+    var id = bi + 1, bd = makeBuilding(KIND[id]);
+    bd.g.traverse(function (o) { if (o.isMesh) { o.userData.bus = id; pickables.push(o); } });
+    var rec = { g: bd.g, mats: bd.mats, top: bd.top, padM: bd.padM, op: 1, tgt: 1, hover: 0, id: id, pmu: PMUS.indexOf(id) >= 0 };
+    bd.g.visible = false; grid.add(bd.g);
+    rec.lab = sprite(tex(256, 96, function (g) { g.font = "700 44px 'IBM Plex Sans', Arial, sans-serif"; g.textAlign = "center"; g.lineJoin = "round"; g.lineWidth = 10; g.strokeStyle = "#f3f6fb"; g.strokeText("BUS " + id, 128, 62); g.fillStyle = "#0d2250"; g.fillText("BUS " + id, 128, 62); }), 1.0, 0.375);
+    rec.lab.visible = false; grid.add(rec.lab);
+    if (rec.pmu) {
+      var H = bd.top + 0.9;
+      rec.ring = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.03, 8, 48), new THREE.MeshBasicMaterial({ color: 0xe7a52e, transparent: true, opacity: 0.95 })); rec.ring.rotation.x = Math.PI / 2; rec.ring.position.y = 0.07; bd.g.add(rec.ring);
+      rec.beam = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, H, 24, 1, true), new THREE.MeshBasicMaterial({ color: 0xf3b638, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false })); rec.beam.position.y = H / 2; bd.g.add(rec.beam);
+      rec.tag = sprite(PMUTAG, 0.62, 0.25); rec.tag.visible = false; grid.add(rec.tag);
+    }
+    B.push(rec);
+  }
+  // power lines: tubes between rooftops, with a spark travelling along each
+  var tubeG = new THREE.CylinderGeometry(0.03, 0.03, 1, 8), sparkG = new THREE.SphereGeometry(0.06, 12, 8);
+  var tubes = EDGES.map(function (e) {
+    var m = new THREE.Mesh(tubeG, new THREE.MeshBasicMaterial({ color: 0x168f98, transparent: true, opacity: 0 })); m.visible = false; grid.add(m);
+    var sp = new THREE.Mesh(sparkG, new THREE.MeshBasicMaterial({ color: 0xffc23d, transparent: true, opacity: 0 })); sp.visible = false; grid.add(sp);
+    return { m: m, sp: sp, a: e[0] - 1, b: e[1] - 1, op: 0 };
+  });
+  var edgeLines = grid.children.filter(function (o) { return o.isLineSegments; })[0];
+  grid.add(new THREE.DirectionalLight(0xffffff, 0.55)); // soft side light for building faces
+
+  var selected = null, near = null, pmuShown = true, labelsShown = true, linksShown = true, hover = 0;
+  var insp = document.getElementById("cInspect");
+  var HINT = "<strong>Click any building</strong><span>to see what it connects to and whether it has a sensor.</span>";
+  function choose(id) {
+    selected = selected === id ? null : id;
+    near = selected === null ? null : [selected].concat(NEI[selected]);
+    B.forEach(function (b, i) { b.tgt = (near === null || near.indexOf(i + 1) >= 0) ? 1 : 0.2; });
+    if (selected === null) { insp.innerHTML = HINT; return; }
+    var has = PMUS.indexOf(selected) >= 0;
+    insp.innerHTML = "<strong>Bus " + selected + " · " + TYPES[selected] + "</strong><span class=\"" + (has ? "pmuon" : "") + "\">" + (has ? "Sensor installed" : "No sensor here") + "</span><span>Connected to " + NEI[selected].map(function (n) { return "Bus " + n; }).join(", ") + "</span>";
+  }
+  window.__pitch = { choose: choose };
+  function wire(idn, on, off, set) {
+    var b = document.getElementById(idn), state = true;
+    b.onclick = function () { state = !state; set(state); b.classList.toggle("active", state); b.setAttribute("aria-pressed", String(state)); b.textContent = state ? on : off; };
+  }
+  wire("cPmu", "PMU sensors: shown", "PMU sensors: hidden", function (v) { pmuShown = v; });
+  wire("cLabels", "Labels on", "Labels off", function (v) { labelsShown = v; });
+  wire("cLinks", "Grid links on", "Grid links off", function (v) { linksShown = v; });
+  document.getElementById("cReset").onclick = function () {
+    if (selected !== null) choose(selected);
+    ["cPmu", "cLabels", "cLinks"].forEach(function (i2) { var bt = document.getElementById(i2); if (!bt.classList.contains("active")) bt.click(); });
+  };
+  var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  function pick(ev) {
+    var r = canvas.getBoundingClientRect(); ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera); var hits = ray.intersectObjects(pickables, false); return hits.length ? hits[0].object.userData.bus : 0;
+  }
+  function cityLive() { return slides[cur].dataset.mode === "flat" && flatT > 0.85; }
+  canvas.addEventListener("pointermove", function (e) { if (!cityLive()) { hover = 0; canvas.style.cursor = ""; return; } hover = pick(e); canvas.style.cursor = hover ? "pointer" : ""; });
+  canvas.addEventListener("click", function (e) { if (!cityLive()) return; var id2 = pick(e); if (id2) choose(id2); else if (selected !== null) choose(selected); });
+
+  var UP = new THREE.Vector3(0, 1, 0), va = new THREE.Vector3(), vb = new THREE.Vector3(), vd = new THREE.Vector3(), cSel = new THREE.Color(0xbfeee8), cWhite = new THREE.Color(0xffffff);
+  function updateCity(t) {
+    var ct = flatT, ease = sm(ct);
+    scene.fog.density = 0.03 - 0.018 * ease;
+    cityG.visible = ct > 0.02;
+    var go = sm((ct - 0.2) / 0.5); gMat.opacity = rMat.opacity = bMat.opacity = pkMat.opacity = go;
+    blocks.forEach(function (k) { k.m.scale.y = Math.max(0.001, k.h * sm((ct - 0.45 - k.d) / 0.4)); });
+    var tops = [];
+    for (var i = 0; i < N; i++) {
+      var node = nodes[i], b = B[i];
+      var e2 = sm(Math.min(1, Math.max(0, ct * 1.35 - i * 0.02)));
+      var x = P[i].x + (CP[i].x - P[i].x) * e2, y = P[i].y + (CP[i].y - P[i].y) * e2, z = P[i].z + (CP[i].z - P[i].z) * e2;
+      node.position.set(x, y, z); halos[i].position.set(x, y, z);
+      var sv = Math.max(0.0001, 1 - sm((e2 - 0.55) / 0.35)); node.scale.multiplyScalar(sv); halos[i].scale.multiplyScalar(sv);
+      var gr = Math.min(1, Math.max(0, (ct - 0.5 - i * 0.012) / 0.38)), gy = Math.max(0.001, eob(gr));
+      b.hover += ((hover === b.id ? 1 : 0) - b.hover) * 0.2;
+      b.g.visible = gr > 0.001; b.g.position.set(x, y, z);
+      b.g.scale.set(Math.max(0.001, Math.min(1, gr * 2)) * BS, gy * BS * (1 + 0.07 * b.hover), Math.max(0.001, Math.min(1, gr * 2)) * BS);
+      b.op += (b.tgt - b.op) * 0.14;
+      for (var mi = 0; mi < b.mats.length; mi++) b.mats[mi].opacity = b.op;
+      b.padM.color.lerp(selected === b.id ? cSel : cWhite, 0.2);
+      var roofY = y + b.top * gy * BS;
+      tops.push(y + (b.top * gy * BS) + 0.1 * gr);
+      b.lab.visible = labelsShown && gr > 0.9; b.lab.position.set(x, roofY + 0.32, z); b.lab.material.opacity = b.op;
+      if (b.pmu) {
+        var on = pmuShown && gr > 0.4;
+        b.ring.visible = b.beam.visible = on; b.tag.visible = on && gr > 0.9;
+        if (on) { var pl = Math.sin(t * 3 + i); b.ring.scale.setScalar(1 + 0.09 * pl); b.beam.material.opacity = (0.1 + 0.05 * pl) * b.op; b.ring.material.opacity = 0.95 * b.op;
+          b.tag.position.set(x, roofY + 0.78 + 0.04 * pl, z); b.tag.material.opacity = b.op; }
+      }
+    }
+    // edges: thin lines while floating, glowing tubes between rooftops in the city
+    if (edgeLines) edgeLines.material.opacity = 1 - sm((ct - 0.45) / 0.3);
+    var lp2 = lineGeo.attributes.position.array;
+    for (var k2 = 0; k2 < EDGES.length; k2++) {
+      var ea = tubes[k2].a, eb = tubes[k2].b, la = (tops[ea] - nodes[ea].position.y) * ease, lb = (tops[eb] - nodes[eb].position.y) * ease;
+      lp2.set([nodes[ea].position.x, nodes[ea].position.y + la, nodes[ea].position.z, nodes[eb].position.x, nodes[eb].position.y + lb, nodes[eb].position.z], k2 * 6);
+      va.set(nodes[ea].position.x, nodes[ea].position.y + la, nodes[ea].position.z); vb.set(nodes[eb].position.x, nodes[eb].position.y + lb, nodes[eb].position.z);
+      vd.subVectors(vb, va); var len = vd.length(), tb2 = tubes[k2];
+      var hit = selected !== null && (selected === ea + 1 || selected === eb + 1), dimm = selected !== null && !hit;
+      var tgtOp = (linksShown && ct > 0.7) ? (dimm ? 0.1 : 0.9) * sm((ct - 0.7) / 0.25) : 0;
+      tb2.op += (tgtOp - tb2.op) * 0.15; tb2.m.material.opacity = tb2.op; tb2.m.visible = tb2.op > 0.01;
+      tb2.m.material.color.setHex(hit ? 0x08717a : 0x168f98);
+      if (tb2.m.visible) {
+        tb2.m.position.copy(va).addScaledVector(vd, 0.5); tb2.m.quaternion.setFromUnitVectors(UP, vd.clone().normalize()); tb2.m.scale.set(hit ? 2 : 1, Math.max(len, 0.001), hit ? 2 : 1);
+        var f = (t * 0.32 + k2 * 0.137) % 1; tb2.sp.position.copy(va).addScaledVector(vd, f); tb2.sp.visible = !dimm; tb2.sp.material.opacity = tb2.op;
+      } else tb2.sp.visible = false;
+    }
+    lineGeo.attributes.position.needsUpdate = true;
+  }
+
   var C = { base: new THREE.Color(0x7f98b8), seen: new THREE.Color(0x168f98), sensor: new THREE.Color(0xe7a52e), lost: new THREE.Color(0xd6453d), edge: new THREE.Color(0xb3c1d6), cov: new THREE.Color(0xd9941c) };
   var tmp = new THREE.Color(), flatT = 0;
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -531,7 +585,7 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
     var t = clock.getElapsedTime(), now = performance.now() / 1000, mt = now - modeStart;
     var mode = slides[cur].dataset.mode, wide = camera.aspect > 1.15;
     var flat = mode === "flat";
-    var targetX = flat ? 0 : (wide ? 3.1 : 0), targetY = flat ? 0 : (wide ? 0 : 2.4);
+    var targetX = flat ? 0 : (wide ? 3.1 : 0), targetY = flat ? -0.4 : (wide ? 0 : 2.4);
     if (mode === "bars") targetX = wide ? 3.9 : 0;
     gx += (targetX - gx) * 0.05;
     grid.position.x = gx; grid.position.y += (targetY - grid.position.y) * 0.05;
@@ -539,7 +593,7 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
     flatT += ((flat ? 1 : 0) - flatT) * 0.045;
     var spinY = window.__cap ? 0.9 * Math.sin(2 * Math.PI * t / window.__cap.T) : (reduce ? 0.6 : t * 0.22);
     var swayX = window.__cap ? 0.08 * Math.sin(2 * Math.PI * t / window.__cap.T + 1) : Math.sin(t * 0.3) * 0.12;
-    grid.rotation.y = spinY * (1 - flatT); grid.rotation.x = swayX * (1 - flatT) + 1.5 * flatT;
+    grid.rotation.y = spinY * (1 - flatT); grid.rotation.x = swayX * (1 - flatT);
     bars.rotation.y = window.__cap ? -0.2 + 0.3 * Math.sin(2 * Math.PI * t / window.__cap.T) : (reduce ? -0.35 : Math.sin(t * 0.4) * 0.35 - 0.2);
     dust.rotation.y = t * 0.01;
     pop += (1 - pop) * 0.06;
@@ -564,7 +618,7 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
 
     var seen = flicker ? {} : covered(active);
     var showGrid = mode !== "bars" && mode !== "none";
-    var gs = showGrid ? (0.35 + 0.65 * pop) * (1 - Math.max(0, (flatT - 0.45) / 0.55)) : 0.001;
+    var gs = showGrid ? (0.35 + 0.65 * pop) : 0.001;
     gs = Math.max(gs, 0.001);
     var cs = grid.scale.x + (gs - grid.scale.x) * 0.1; grid.scale.set(cs, cs, cs); grid.visible = cs > 0.02;
     var bs = mode === "bars" ? 1 : 0.001; var cb = bars.scale.x + (bs - bars.scale.x) * 0.08; bars.scale.set(cb, cb, cb); bars.visible = cb > 0.02;
@@ -592,7 +646,7 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
         var nr = r0 + (c0.r - r0) * 0.15, ng = g0 + (c0.g - g0) * 0.15, nb = b0 + (c0.b - b0) * 0.15;
         ca[o] = ca[o + 3] = nr; ca[o + 1] = ca[o + 4] = ng; ca[o + 2] = ca[o + 5] = nb;
       });
-      lineGeo.attributes.color.needsUpdate = true;
+      lineGeo.attributes.color.needsUpdate = true; updateCity(t);
     }
     if (bars.visible) {
       barMeshes.forEach(function (m2, i4) {
@@ -605,7 +659,10 @@ button:focus-visible, .hub:focus-visible { outline: 2px solid var(--brand); outl
     var fx = Math.sin(t * 0.7) * 2.2, fy = Math.cos(t * 0.5) * 3;
     lx += ((px - 0.5) * 14 - lx) * 0.06; ly += ((py - 0.5) * -10 - ly) * 0.06;
     if (!reduce) logo.style.transform = "rotateX(" + (ly + fx).toFixed(2) + "deg) rotateY(" + (lx + fy).toFixed(2) + "deg)";
-    camera.position.x = window.__cap ? 0 : Math.sin(t * 0.15) * 0.4; camera.lookAt(0, 0, 0);
+    var cp = sm(flatT), camX = window.__cap ? 0 : Math.sin(t * 0.15) * 0.4;
+    var orbit = window.__cap ? Math.sin(2 * Math.PI * t / (window.__cap.T * 1.5)) * 2.4 : Math.sin(t * 0.2) * 2.0 + (px - 0.5) * 2.0;
+    camera.position.set(camX * (1 - cp) + orbit * cp, 0.6 * (1 - cp) + 9.4 * cp, 10 * (1 - cp) + 13.4 * cp);
+    camera.lookAt(0, 0.9 * cp, 0.3 * cp);
     renderer.render(scene, camera);
   }
   go(0);
