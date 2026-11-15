@@ -120,7 +120,7 @@ s3 = prs.slides.add_slide(BLANK)
 chrome(s3, "03 / SOLUTION & TECHNOLOGY", YEL, 3.5)
 title(s3, "What did we build?")
 steps = [
-    ("STEP 1  ·  METHOD", "A quantum search", "Each substation is a yes/no: sensor or not. QAOA (p = 2, CVaR α = 0.25) tries many combinations at once and favors the good ones.", YEL),
+    ("STEP 1  ·  METHOD", "A quantum search", "Each substation is a yes/no: sensor or not. QAOA (5 layers, penalty 2, CVaR α = 0.25) tries many combinations at once and favors the good ones.", YEL),
     ("STEP 2  ·  BUILD", "Shrink, split, repair", "Shrink the grid, split it into pieces, search each, repair. A checker proves every substation is covered. Result: sensors at buses 2, 6, 7, 9.", CARD),
     ("STEP 3  ·  STATUS", "Runs on real chips", "Works on simulators and two quantum chips (Rigetti, IonQ). Unproven: any win over the classical exact solver.", CARD),
 ]
